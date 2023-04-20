@@ -1,6 +1,11 @@
 import React, { useState } from 'react'
 
-export default function Suggestions() {
+interface SuggestionsProps {
+  openNewFeedback: boolean
+  setOpenNewFeedback: any
+}
+
+export default function Suggestions({ openNewFeedback, setOpenNewFeedback }: SuggestionsProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   const [dropValue, setDropValue] = useState('Most Upvotes')
@@ -35,7 +40,7 @@ export default function Suggestions() {
           )}
           
         </div>
-        <button className='feedbackButton'><img src='/shared/icon-plus.svg'/>Add Feedback</button>
+        <button className='feedbackButton' onClick={() => setOpenNewFeedback(true)}><img src='/shared/icon-plus.svg'/>Add Feedback</button>
       </div>
 
       {/* list of suggestions */}

@@ -32,7 +32,13 @@ a {
   text-decoration: none;
 }
 
+.hidden {
+  display: none;
+}
+
 .container {
+  display: flex;
+  justify-content: center;
   height: 100vh;
 }
 
@@ -40,6 +46,7 @@ a {
   display: flex;
   gap: 40px;
   padding: 20px;
+  width: 100%;
 
   section {
     display: flex;
@@ -156,7 +163,7 @@ a {
 
   .suggestionItem {
     display: flex;
-    
+
     background-color: white;
     width: 100%;
     height: 151px;
@@ -352,6 +359,128 @@ a {
         font-weight: 700;
         font-size: 1.1rem;
       }
+    }
+  }
+}
+
+.newFeedbackContainer {
+  display: flex;
+  flex-direction: column;
+  height: 745px;
+  width: 540px;
+  align-self: center;
+
+  div {
+    margin-bottom: 40px;
+
+    &:nth-child(1) {
+      display: flex;
+      align-items: center;
+      height: 20px;
+      gap: 4px;
+
+      button {
+        background-color: $light2;
+        border: none;
+        font-weight: 600;
+        color: $darkpurple;
+      }
+    }
+  }
+
+  .formContainer {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: 100%;
+    padding: 40px;
+    border-radius: 10px;
+
+    h1 {
+      color: $darkpurple;
+      margin-bottom: 30px;
+    }
+
+    .formItemWrapper {
+      position: relative;
+
+      h2 {
+        font-size: 1rem;
+        color: $darkpurple;
+      }
+
+      p {
+        color: $grey;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+      }
+
+      .categoryDropdownButton {
+        height: 48px;
+        width: 100%;
+        background-color: $light2;
+        border: none;
+        border-radius: 5px;
+        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+        padding-right: 20px;
+
+        img {
+          margin-left: auto;
+        }
+      }
+
+      input {
+        height: 48px;
+        width: 100%;
+        background-color: $light2;
+        border: none;
+        border-radius: 5px;
+      }
+    }
+
+    .buttonWrapper {
+      display: flex;
+      gap: 20px;
+      align-self: flex-end;
+
+      button {
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+
+        &:nth-child(1) {
+          height: 44px;
+          width: 93px;
+          background-color: $darkpurple;
+        }
+
+        &:nth-child(2) {
+          height: 44px;
+          width: 144px;
+          background-color: $purple;
+        }
+      }
+    }
+
+    .categoryDropdown {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      top: 60px;
+      left: 0;
+      width: 255px;
+      height: 192px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      background-color: #ffffff;
+      color: $grey;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+      border-radius: 10px;
     }
   }
 }

@@ -6,6 +6,7 @@ import Suggestions from '../components/Suggestions'
 import Banner from '../components/Banner'
 import Tags from '../components/Tags'
 import RoadmapDashboard from '../components/RoadmapDashboard'
+import NewFeedback from '../components/NewFeedback'
 
 interface HomeProps {
   data: any
@@ -37,7 +38,7 @@ interface HomeProps {
 export default function Home({ data }: HomeProps) {
   const [tag, setTag] = useState('All')
 
-  console.log(data)
+  const [openNewFeedback, setOpenNewFeedback] = useState(false)
 
   return (
     <div className="container">
@@ -45,28 +46,36 @@ export default function Home({ data }: HomeProps) {
         <title>game-feedback-app</title>
         <link rel="icon" href="/favicon-32x32.png" />
       </Head>
-      <main className='main'>
-        <section>
-          <Banner />
-          <Tags tag={tag} setTag={setTag}/>
-          <RoadmapDashboard />
-        </section>
-        
-        <Suggestions />
-      </main>
-      
+      {openNewFeedback ? (
+        <NewFeedback
+          openNewFeedback={openNewFeedback}
+          setOpenNewFeedback={setOpenNewFeedback}
+        />
+      ) : (
+        <main className={`main`}>
+          <section>
+            <Banner />
+            <Tags tag={tag} setTag={setTag} />
+            <RoadmapDashboard />
+          </section>
+
+          <Suggestions
+            openNewFeedback={openNewFeedback}
+            setOpenNewFeedback={setOpenNewFeedback}
+          />
+        </main>
+      )}
     </div>
   )
 }
 
 export async function getStaticProps() {
   try {
-    const response = await fetch('http://localhost:3000/api/movies');
-    const data = await response.json();
-    return { props: { data } };
+    const response = await fetch('http://localhost:3000/api/movies')
+    const data = await response.json()
+    return { props: { data } }
   } catch (error) {
-    console.error('Error fetching data:', error);
-    return { props: { data: [] } };
+    console.error('Error fetching data:', error)
+    return { props: { data: [] } }
   }
 }
-
