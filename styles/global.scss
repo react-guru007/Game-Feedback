@@ -243,6 +243,35 @@ a {
     p {
       font-size: 1rem;
       opacity: 50%;
+      font-weight: 400;
+    }
+
+    button {
+      color: white;
+      background-color: transparent;
+      border: none;
+      font-weight: 500;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: underline;
+
+      &:hover {
+        color: $darkpurple;
+      }
+    }
+  }
+
+  .signWrapper {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+
+    p {
+      font-size: 1rem;
+      color: white;
+      opacity: 100%;
+      margin-right: 6px;
+      font-weight: 500;
     }
   }
 
@@ -384,6 +413,7 @@ a {
         border: none;
         font-weight: 600;
         color: $darkpurple;
+        cursor: pointer;
       }
     }
   }
@@ -450,6 +480,7 @@ a {
         border: none;
         border-radius: 10px;
         font-weight: 600;
+        cursor: pointer;
 
         &:nth-child(1) {
           height: 44px;

@@ -23,7 +23,7 @@ export default function NewFeedback({ openNewFeedback, setOpenNewFeedback }: New
     <div className='newFeedbackContainer'>
         <div>
             <img src='/shared/icon-arrow-left.svg'/>
-            <button>Go Back</button>
+            <button onClick={() => setOpenNewFeedback(false)}>Go Back</button>
         </div>
         <div className='formContainer'>
             <h1>Create New Feedback</h1>
@@ -51,7 +51,7 @@ export default function NewFeedback({ openNewFeedback, setOpenNewFeedback }: New
             </div>
 
             <div className='buttonWrapper'>
-                <button>Cancel</button>
+                <button onClick={() => setOpenNewFeedback(false)}>Cancel</button>
                 <button>Add Feedback</button>
             </div>
         </div>
