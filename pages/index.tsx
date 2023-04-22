@@ -7,6 +7,7 @@ import Banner from '../components/Banner'
 import Tags from '../components/Tags'
 import RoadmapDashboard from '../components/RoadmapDashboard'
 import NewFeedback from '../components/NewFeedback'
+import FeedbackPage from '../components/FeedbackPage'
 
 interface HomeProps {
   data: any
@@ -40,18 +41,35 @@ export default function Home({ data }: HomeProps) {
 
   const [openNewFeedback, setOpenNewFeedback] = useState(false)
 
+  const [openFeedbackPage, setOpenFeedbackPage] = useState(false)
+
+  const [pageId, setPageId] = useState('')
+
+
   return (
     <div className="container">
       <Head>
         <title>game-feedback-app</title>
         <link rel="icon" href="/favicon-32x32.png" />
       </Head>
-      {openNewFeedback ? (
+      {openNewFeedback && (
         <NewFeedback
           openNewFeedback={openNewFeedback}
           setOpenNewFeedback={setOpenNewFeedback}
         />
-      ) : (
+      )}
+
+      {openFeedbackPage && (
+        <FeedbackPage 
+        openFeedbackPage={openFeedbackPage}
+        setOpenFeedbackPage={setOpenFeedbackPage}
+        pageId={pageId}
+            setPageId={setPageId}
+            data={data}
+        />
+      )}
+
+      {!openNewFeedback && !openFeedbackPage &&(
         <main className={`main`}>
           <section>
             <Banner />
@@ -62,6 +80,11 @@ export default function Home({ data }: HomeProps) {
           <Suggestions
             openNewFeedback={openNewFeedback}
             setOpenNewFeedback={setOpenNewFeedback}
+            openFeedbackPage={openFeedbackPage}
+            setOpenFeedbackPage={setOpenFeedbackPage}
+            pageId={pageId}
+            setPageId={setPageId}
+            data={data}
           />
         </main>
       )}
@@ -71,7 +94,7 @@ export default function Home({ data }: HomeProps) {
 
 export async function getStaticProps() {
   try {
-    const response = await fetch('http://localhost:3000/api/movies')
+    const response = await fetch('http://localhost:3000/api/feedback')
     const data = await response.json()
     return { props: { data } }
   } catch (error) {

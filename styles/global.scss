@@ -218,6 +218,7 @@ a {
       height: 23px;
       font-size: 1.2rem;
       font-weight: 700;
+      cursor: pointer;
 
       p {
         display: flex;
@@ -434,6 +435,10 @@ a {
     .formItemWrapper {
       position: relative;
 
+      .open {
+        outline: 1px solid $blue;
+      }
+
       h2 {
         font-size: 1rem;
         color: $darkpurple;
@@ -443,6 +448,36 @@ a {
         color: $grey;
         margin-bottom: 15px;
         font-size: 0.9rem;
+      }
+
+      input {
+        padding-left: 10px;
+        padding-right: 10px;
+        font-size: 1rem;
+
+        &:focus {
+          border: none;
+          outline: 1px solid $blue;
+        }
+      }
+
+      textarea {
+        padding: 10px;
+
+        &:focus {
+          border: none;
+          outline: 1px solid $blue;
+        }
+      }
+
+      .feedbackDetail {
+        height: 100px;
+        width: 100%;
+        resize: none;
+        background-color: $light2;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
       }
 
       .categoryDropdownButton {
@@ -455,6 +490,8 @@ a {
         display: flex;
         align-items: center;
         padding-right: 20px;
+        padding-left: 30px;
+        font-size: 1rem;
 
         img {
           margin-left: auto;
@@ -500,10 +537,10 @@ a {
       position: absolute;
       display: flex;
       flex-direction: column;
-      top: 60px;
+      top: 110px;
       left: 0;
-      width: 255px;
-      height: 192px;
+      width: 100%;
+      height: 260px;
       padding: 0;
       margin: 0;
       list-style: none;
@@ -512,6 +549,143 @@ a {
       box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
       z-index: 1;
       border-radius: 10px;
+
+      li {
+        border-bottom: 1px solid $light2;
+        flex-grow: 1;
+        display: flex;
+        align-items: center;
+        padding-left: 16px;
+        padding-right: 16px;
+        cursor: pointer;
+
+        &:nth-child(5) {
+          border-bottom: none;
+        }
+
+        &:hover {
+          color: $purple;
+        }
+
+        .check {
+          margin-left: auto;
+        }
+      }
     }
+  }
+}
+
+.feedbackPageContainer {
+  display: flex;
+  flex-direction: column;
+  width: 730px;
+  align-self: center;
+  
+
+  .navContainer {
+    display: flex;
+    align-items: center;
+    
+    .backWrapper {
+      cursor: pointer;
+
+      button {
+        background-color: $light2;
+        border: none;
+        font-weight: 600;
+        color: $darkpurple;
+        cursor: pointer;
+        margin-left: 4px;
+      }
+    }
+
+    .editButton {
+      margin-left: auto;
+      background-color: $blue;
+      color: white;
+      border: none;
+      height: 44px;
+      width: 142px;
+      border-radius: 10px;
+      font-weight: 500;
+    }
+  }
+
+  .suggestionItem {
+    display: flex;
+
+    background-color: white;
+    width: 100%;
+    height: 151px;
+    border-radius: 10px;
+    padding: 25px;
+    margin-top: 20px;
+    margin-bottom: 40px;
+
+    .upvotes {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 53px;
+      background-color: $light2;
+      color: $darkpurple;
+      border-radius: 10px;
+      font-weight: 600;
+      gap: 4px;
+      margin-right: 25px;
+    }
+
+    .suggestionDescriptionWrapper {
+      display: flex;
+      flex-direction: column;
+      color: $darkpurple;
+
+      div {
+        display: flex;
+        height: 30px;
+        padding: 14px;
+        background-color: $light1;
+        align-items: center;
+        color: $blue;
+        font-weight: 700;
+        width: fit-content;
+        border-radius: 10px;
+        margin-top: auto;
+      }
+
+      p {
+        font-size: 1.1rem;
+        color: $grey;
+      }
+    }
+
+    .commentsWrapper {
+      display: flex;
+      gap: 10px;
+      align-self: center;
+      margin-left: auto;
+      color: $darkpurple;
+      height: 23px;
+      font-size: 1.2rem;
+      font-weight: 700;
+
+      p {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  .commentsContainer {
+    background-color: white;
+    padding: 30px;
+
+    h2 {
+      color: $darkpurple;
+    }
+
+    
   }
 }
