@@ -8,6 +8,7 @@ import Tags from '../components/Tags'
 import RoadmapDashboard from '../components/RoadmapDashboard'
 import NewFeedback from '../components/NewFeedback'
 import FeedbackPage from '../components/FeedbackPage'
+import { useSession } from 'next-auth/react'
 
 interface HomeProps {
   data: any
@@ -45,7 +46,9 @@ export default function Home({ data }: HomeProps) {
 
   const [pageId, setPageId] = useState('')
 
+  const session = useSession()
 
+console.log(session)
   return (
     <div className="container">
       <Head>

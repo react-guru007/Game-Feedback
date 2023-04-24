@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSession } from 'next-auth/react'
 
 interface FeedbackPageProps {
   openFeedbackPage: boolean
@@ -15,7 +16,11 @@ export default function FeedbackPage({
   setPageId,
   data,
 }: FeedbackPageProps) {
+  const session = useSession()
+
   const currentPost = data.find((item: any) => item._id === pageId)
+
+  console.log(currentPost)
 
   return (
     <div className="feedbackPageContainer">
@@ -46,20 +51,51 @@ export default function FeedbackPage({
       <div className="commentsContainer">
         <h2>{currentPost.comments.length} Comments</h2>
 
+        {currentPost.comments.map((item: any) => (
+          <div className="itemWrapper">
+            <div className="commentItem">
+              <div className="commentSidebar">
+                <img src={item.user.image} />
+                <div className={`${!item.replies.length ? 'hidden' : 'testReplyLine'}`}></div>
+              </div>
+
+              <div className="commentWrapper">
+                <div className="commentHeader">
+                  <p>{item.user.name}</p>
+                  <button>Reply</button>
+                </div>
+                <p>{item.content}</p>
+              </div>
+            </div>
+            {/* replies */}
+            {item.replies.map((item: any) => (
+              <div className="commentItem replyItem">
+                <div className='replyLine'></div>
+                <div className="commentSidebar">
+                  <img src={item.user.image} className='replyImage'/>
+                  <div className={`${!item?.replies?.length && 'hidden'}`}></div>
+                </div>
+
+                <div className="commentWrapper">
+                  <div className="commentHeader">
+                    <p>{item?.user?.name}</p>
+                    <button>Reply</button>
+                  </div>
+                  <p><span>@{item.replyingTo}</span>{item.content}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      <div className='addCommentContainer'>
+        <h2>Add Comment</h2>
+        <input></input>
         <div>
-          <div className="commentSidebar">
-            <img />
-            <div>line</div>
-          </div>
-
-          <div className="commentWrapper">
-            <div className="commentHeader"></div>
-            <p>comment</p>
-          </div>
-
+          <p></p>
+          <button></button>
         </div>
       </div>
-      <div>add comments</div>
     </div>
   )
 }
