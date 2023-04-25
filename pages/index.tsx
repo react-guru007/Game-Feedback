@@ -48,7 +48,7 @@ export default function Home({ data }: HomeProps) {
 
   const session = useSession()
 
-console.log(session)
+
   return (
     <div className="container">
       <Head>

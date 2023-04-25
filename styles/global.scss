@@ -580,6 +580,8 @@ a {
   flex-direction: column;
   width: 730px;
   align-self: center;
+  height: 100%;
+  padding-top: 40px;
 
   .navContainer {
     display: flex;
@@ -687,22 +689,25 @@ a {
       margin-bottom: 40px;
     }
 
-
-
     .itemWrapper {
       display: flex;
       flex-direction: column;
-      
 
       &:not(:last-child) {
         padding-bottom: 20px;
-      margin-bottom: 20px;
-      border-bottom: 1px solid rgba($grey, 0.5);
+        margin-bottom: 20px;
+        border-bottom: 1px solid rgba($grey, 0.5);
       }
-      
     }
 
-    
+    .replyContainer {
+      display: flex;
+
+      .replyWrapper {
+        display: flex;
+        flex-direction: column;
+      }
+    }
 
     .replyLine {
       border-right: 1px solid $grey;
@@ -710,19 +715,19 @@ a {
       margin-right: 25px;
       opacity: 50%;
       height: auto;
-
-      
     }
 
     .replyItem {
-      
-      &:last-child {
-         .replyLine {
-          margin-bottom: 50px;
-         }
+      &:first-child {
+        .replyLine {
+        }
       }
-      
-      
+
+      &:last-child {
+        .replyLine {
+          margin-bottom: 50px;
+        }
+      }
     }
 
     .replyImage {
@@ -739,14 +744,14 @@ a {
         align-items: center;
         position: relative;
 
-        .testReplyLine {
-          position: absolute;
-          border-right: 1px solid $grey;
-          width: 0px;
-          height: 40px;
-          top: 60px;
-          opacity: 100;
-        }
+        // .testReplyLine {
+        //   position: absolute;
+        //   border-right: 1px solid $grey;
+        //   width: 0px;
+        //   height: 40px;
+        //   top: 60px;
+        //   opacity: 100;
+        // }
 
         img {
           border-radius: 50%;
@@ -754,16 +759,16 @@ a {
           margin-bottom: 5px;
         }
 
-        div {
-          border-right: 1px solid $grey;
-          width: 0px;
-          height: 40px;
-          opacity: 50%;
+        // div {
+        //   border-right: 1px solid $grey;
+        //   width: 0px;
+        //   height: 40px;
+        //   opacity: 50%;
 
-          .hidden {
-            display: none;
-          }
-        }
+        //   .hidden {
+        //     display: none;
+        //   }
+        // }
       }
 
       .commentWrapper {
@@ -775,7 +780,7 @@ a {
 
         p {
           color: $grey;
-          overflow-wrap: break-word; 
+          overflow-wrap: break-word;
           word-wrap: break-word;
 
           span {
@@ -804,26 +809,84 @@ a {
             font-size: 0.9rem;
           }
         }
+
+        .replyToCommentWrapper {
+          display: flex;
+          width: 100%;
+          gap: 10px;
+          margin-top: 20px;
+
+          textarea {
+            width: 100%;
+            background-color: $light2;
+            border: none;
+            border-radius: 5px;
+            resize: none;
+            padding: 6px;
+            font-size: 1rem;
+
+            &:focus {
+              outline: 1px solid $blue;
+            }
+          }
+
+          button {
+            margin-left: auto;
+            width: 117px;
+            height: 44px;
+            background-color: $purple;
+            font-weight: 500;
+            color: white;
+            border: none;
+            border-radius: 10px;
+          }
+        }
       }
     }
-
-    
   }
 
   .addCommentContainer {
-      display: flex;
-      flex-direction: column;
-      width: 730px;
-      height: 246px;
-      background-color: white;
-      margin-top: 40px;
-      padding: 30px;
+    display: flex;
+    flex-direction: column;
+    width: 730px;
+    height: 246px;
+    background-color: white;
+    margin-top: 40px;
+    padding: 30px;
+    border-radius: 10px;
 
-      input {
-        background-color: $light2;
-        border: none;
-        height: 80px;
-        border-radius: 5px;
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    input {
+      background-color: $light2;
+      border: none;
+      height: 80px;
+      border-radius: 5px;
+
+      &:focus {
+        outline: 1px solid $blue;
+        
       }
     }
+
+    .postCommentWrapper {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+
+      button {
+        margin-left: auto;
+        background-color: $purple;
+        color: white;
+        border: none;
+        width: 142px;
+        height: 44px;
+        border-radius: 10px;
+        font-weight: 500;
+        cursor: pointer;
+      }
+    }
+  }
 }
