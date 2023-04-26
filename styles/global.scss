@@ -609,6 +609,7 @@ a {
       width: 142px;
       border-radius: 10px;
       font-weight: 500;
+      cursor: pointer;
     }
   }
 
@@ -812,6 +813,7 @@ a {
 
         .replyToCommentWrapper {
           display: flex;
+          align-items: center;
           width: 100%;
           gap: 10px;
           margin-top: 20px;
@@ -839,6 +841,10 @@ a {
             color: white;
             border: none;
             border-radius: 10px;
+
+            &:hover {
+              cursor: pointer;
+            }
           }
         }
       }
@@ -886,6 +892,51 @@ a {
         border-radius: 10px;
         font-weight: 500;
         cursor: pointer;
+      }
+    }
+  }
+}
+
+.editFeedbackContainer {
+  height: auto;
+
+  margin-top: 80px;
+
+  h1 {
+    font-size: 1.9rem;
+  }
+
+  .editButtonWrapper {
+    display: flex;
+    gap: 20px;
+    align-self: flex-end;
+    padding-top: 40px;
+    width: 100%;
+
+    button {
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+
+      &:nth-child(1) {
+        width: 93px;
+        height: 44px;
+        background-color: red;
+        margin-right: auto;
+      }
+
+      &:nth-child(2) {
+        height: 44px;
+        width: 93px;
+        background-color: $darkpurple;
+      }
+
+      &:nth-child(3) {
+        height: 44px;
+        width: 144px;
+        background-color: $purple;
       }
     }
   }

@@ -8,34 +8,12 @@ import Tags from '../components/Tags'
 import RoadmapDashboard from '../components/RoadmapDashboard'
 import NewFeedback from '../components/NewFeedback'
 import FeedbackPage from '../components/FeedbackPage'
+import EditFeedback from '../components/EditFeedback'
 import { useSession } from 'next-auth/react'
 
 interface HomeProps {
   data: any
 }
-
-// export async function getServerSideProps(context: any) {
-//   try {
-//     await clientPromise
-//     // `await clientPromise` will use the default database passed in the MONGODB_URI
-//     // However you can use another database (e.g. myDatabase) by replacing the `await clientPromise` with the following code:
-//     //
-//     // `const client = await clientPromise`
-//     // `const db = client.db("myDatabase")`
-//     //
-//     // Then you can execute queries against your database like so:
-//     // db.find({}) or any of the MongoDB Node Driver commands
-
-//     return {
-//       props: { isConnected: true },
-//     }
-//   } catch (e) {
-//     console.error(e)
-//     return {
-//       props: { isConnected: false },
-//     }
-//   }
-// }
 
 export default function Home({ data }: HomeProps) {
   const [tag, setTag] = useState('All')
@@ -43,6 +21,8 @@ export default function Home({ data }: HomeProps) {
   const [openNewFeedback, setOpenNewFeedback] = useState(false)
 
   const [openFeedbackPage, setOpenFeedbackPage] = useState(false)
+
+  const [openEditFeedbackPage, setOpenEditFeedbackPage] = useState(false)
 
   const [pageId, setPageId] = useState('')
 
@@ -64,15 +44,27 @@ export default function Home({ data }: HomeProps) {
 
       {openFeedbackPage && (
         <FeedbackPage 
-        openFeedbackPage={openFeedbackPage}
-        setOpenFeedbackPage={setOpenFeedbackPage}
-        pageId={pageId}
-            setPageId={setPageId}
-            data={data}
+          openFeedbackPage={openFeedbackPage}
+          setOpenFeedbackPage={setOpenFeedbackPage}
+          openEditFeedbackPage={openEditFeedbackPage}
+          setOpenEditFeedbackPage={setOpenEditFeedbackPage}
+          pageId={pageId}
+          setPageId={setPageId}
+          data={data}
         />
       )}
 
-      {!openNewFeedback && !openFeedbackPage &&(
+      {openEditFeedbackPage && (
+        <EditFeedback 
+        openEditFeedbackPage={openEditFeedbackPage}
+        setOpenEditFeedbackPage={setOpenEditFeedbackPage}
+        pageId={pageId}
+        setPageId={setPageId}
+        data={data}
+        />
+      )}
+
+      {!openNewFeedback && !openFeedbackPage && !openEditFeedbackPage &&(
         <main className={`main`}>
           <section>
             <Banner />

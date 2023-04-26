@@ -4,6 +4,8 @@ import { useSession } from 'next-auth/react'
 interface FeedbackPageProps {
   openFeedbackPage: boolean
   setOpenFeedbackPage: any
+  openEditFeedbackPage: boolean
+  setOpenEditFeedbackPage: any
   pageId: string
   setPageId: any
   data: any
@@ -12,6 +14,7 @@ interface FeedbackPageProps {
 export default function FeedbackPage({
   openFeedbackPage,
   setOpenFeedbackPage,
+  setOpenEditFeedbackPage,
   pageId,
   setPageId,
   data,
@@ -28,7 +31,7 @@ export default function FeedbackPage({
     id: '',
     content: '',
     user: {
-      image: session ? session?.user?.image : '/user-images/image-zena.jpg',
+      image: '/user-images/image-zena.jpg',
       name: session ? session?.user?.name : 'Guest',
     },
     replies: [],
@@ -38,8 +41,8 @@ export default function FeedbackPage({
     content: '',
     replyingTo: '',
     user: {
-      image: '',
-      name: '',
+      image: '/user-images/image-zena.jpg',
+      name: session ? session?.user?.name : 'Guest',
     },
   })
 
@@ -51,9 +54,15 @@ export default function FeedbackPage({
     setPostComment(copyObj)
   }
 
-  const addComment = async (newComment: any) => {
-    setDataType('Comment')
+  const handleReplyChange = (e: any, replyToName: string) => {
+    let copyObj = postReply
+    copyObj.content = e.target.value
+    copyObj.replyingTo = replyToName
+    setPostReply(copyObj)
+    console.log(postReply)
+  }
 
+  const addComment = async (newComment: any) => {
 
     try {
       const response = await fetch('http://localhost:3000/api/comment', {
@@ -63,21 +72,13 @@ export default function FeedbackPage({
         },
         body: JSON.stringify({ newComment, filterId, dataType }),
       })
-
-      console.log(
-        'Fetch response status:',
-        response.status,
-        response.statusText
-      )
     } catch (error) {
       console.error('Error adding comment:', error)
     }
   }
 
   const addReply = async (newReply: any, currentId: any) => {
-    setDataType('Reply')
-
-    const commentId = currentId 
+    const commentId = currentId
 
     try {
       const response = await fetch('http://localhost:3000/api/comment', {
@@ -85,8 +86,12 @@ export default function FeedbackPage({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ newReply, filterId, dataType, commentId})
+        body: JSON.stringify({ newReply, filterId, dataType, commentId }),
       })
+
+      if (response.ok) {
+        setActiveReplyBox(-1)
+      }
     } catch (error) {
       console.error('Error adding comment:', error)
     }
@@ -95,9 +100,16 @@ export default function FeedbackPage({
   const handleReplyButton = (index: number) => {
     if (activeReplyBox === index) {
       setActiveReplyBox(-1)
+      setDataType('Comment')
     } else {
+      setDataType('Reply')
       setActiveReplyBox(index)
     }
+  }
+
+  const handleEditButton = () => {
+    setOpenFeedbackPage(false)
+    setOpenEditFeedbackPage(true)
   }
 
   return (
@@ -107,7 +119,7 @@ export default function FeedbackPage({
           <img src="/shared/icon-arrow-left.svg" />
           <button onClick={() => setOpenFeedbackPage(false)}>Go Back</button>
         </div>
-        <button className="editButton">Edit Feedback</button>
+        <button className="editButton" onClick={handleEditButton}>Edit Feedback</button>
       </div>
 
       <div className="suggestionItem" key={currentPost._id}>
@@ -149,11 +161,17 @@ export default function FeedbackPage({
                   </button>
                 </div>
                 <p>{item.content}</p>
-
+                {/* reply box */}
                 {activeReplyBox === index && (
                   <div className="replyToCommentWrapper">
-                    <textarea></textarea>
-                    <button onClick={() => addReply(postReply, item.id)}>Post Reply</button>
+                    <textarea
+                      onChange={(event) =>
+                        handleReplyChange(event, item.user.name)
+                      }
+                    ></textarea>
+                    <button onClick={() => addReply(postReply, item.id)}>
+                      Post Reply
+                    </button>
                   </div>
                 )}
               </div>
@@ -177,7 +195,7 @@ export default function FeedbackPage({
                     <div className="commentWrapper">
                       <div className="commentHeader">
                         <p>{item?.user?.name}</p>
-                        <button>Reply</button>
+                        {/* <button>Reply</button> */}
                       </div>
                       <p>
                         <span>@{item.replyingTo}</span>
