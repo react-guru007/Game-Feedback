@@ -1,4 +1,5 @@
 import clientPromise from '../../lib/mongodb'
+import { ObjectId } from 'mongodb'
 
 export default async (req, res) => {
   try {
@@ -15,9 +16,19 @@ export default async (req, res) => {
       res.json(feedbackList)
     } else if (req.method === 'POST') {
 
-      const newFeedback = JSON.parse(req.body)
+      if (req.body.changeType === 'Delete') {
+        const objectId = new ObjectId(req.body.deleteId)
+        const filter = { _id: objectId}
+
+        const result = await db.collection('feedback').deleteOne(filter)
+      } else {
+
+        const newFeedback = JSON.parse(req.body)
       const result = await db.collection('feedback').insertOne(newFeedback)
       res.status(200).json({ message: 'Feedback added', result })
+      }
+
+      
       
     } else {
       res.status(405).json({ message: 'Method not allowed' })

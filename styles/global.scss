@@ -901,6 +901,13 @@ a {
   height: auto;
 
   margin-top: 80px;
+position: relative;
+
+  .deleteCheckContainer {
+    position: absolute;
+    top: 0;
+    right: 50%;
+  }
 
   h1 {
     font-size: 1.9rem;

@@ -11,6 +11,7 @@ export default async (req, res) => {
     let result 
 
     if (req.method === 'POST') {
+      // add comment
       if (req.body.dataType === 'Comment') {
         const newComment = req.body.newComment
         const filterId = req.body.filterId
@@ -31,7 +32,7 @@ export default async (req, res) => {
 
         result = await db.collection('feedback').updateOne(filter, update)
       }
-
+      // reply comment
       if (req.body.dataType === 'Reply') {
         const newReply = req.body.newReply
         const filterId = req.body.filterId
@@ -46,6 +47,7 @@ export default async (req, res) => {
 
         
       }
+      //delete 
 
       res.status(200).json({ message: 'Feedback added', result })
     } else {
