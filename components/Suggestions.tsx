@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 interface SuggestionsProps {
   openNewFeedback: boolean
@@ -8,6 +9,9 @@ interface SuggestionsProps {
   pageId: string
   setPageId: any
   data: any
+  session: any
+  isVoting: boolean
+  setIsVoting: any
 }
 
 export default function Suggestions({
@@ -18,11 +22,19 @@ export default function Suggestions({
   pageId,
   setPageId,
   data,
+  session,
+  isVoting,
+  setIsVoting
 }: SuggestionsProps) {
+  const router = useRouter()
+
+  const user = session?.data?.user?.name
 
   const [isOpen, setIsOpen] = useState(false)
 
   const [dropValue, setDropValue] = useState('Most Upvotes')
+
+  
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
@@ -38,6 +50,52 @@ export default function Suggestions({
     setOpenFeedbackPage(true)
   }
 
+  const upvoteFeedback = async (currentId: any) => {
+    const currentPost = data.find((item: any) => item._id === currentId)
+
+    const currentUpvotes = currentPost.upvotes
+
+    const hasUserUpvoted = currentPost.upvotedBy.some(
+      (item: any) => item === user
+    )
+
+    const feedbackId = currentId
+
+    const changeType = 'UPVOTE'
+
+    setIsVoting(true)
+    console.log(isVoting)
+    router.push('/')
+
+    if (true) {
+      try {
+        const response = await fetch('http://localhost:3000/api/feedback', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            feedbackId,
+            user,
+            changeType,
+            currentUpvotes,
+          }),
+        })
+
+        
+      } catch (error) {
+        console.error('Error adding comment:', error)
+      }
+
+      
+    }
+
+    
+  }
+
+  
+
+  
   return (
     <div className="suggestionsContainer">
       {/* header bar */}
@@ -98,16 +156,19 @@ export default function Suggestions({
 
       {data.map((item: any) => (
         <div className="suggestionItem" key={item._id}>
-          <div className="upvotes">
+          <button className="upvotes" onClick={() => upvoteFeedback(item._id)}>
             <img src="/shared/icon-arrow-up.svg" />
             <p>{item.upvotes}</p>
-          </div>
+          </button>
           <div className="suggestionDescriptionWrapper">
             <h2>{item.title}</h2>
             <p>{item.description}</p>
             <div>{item.category}</div>
           </div>
-          <div className="commentsWrapper" onClick={() => handleOpenFeedbackPage(item._id)}>
+          <div
+            className="commentsWrapper"
+            onClick={() => handleOpenFeedbackPage(item._id)}
+          >
             <p>{item.comments.length}</p>
             <img src="/shared/icon-comments.svg" />
           </div>

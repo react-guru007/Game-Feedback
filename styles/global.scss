@@ -183,6 +183,8 @@ a {
       font-weight: 600;
       gap: 4px;
       margin-right: 25px;
+      border: none;
+      cursor: pointer;
     }
 
     .suggestionDescriptionWrapper {
@@ -610,6 +612,11 @@ a {
       border-radius: 10px;
       font-weight: 500;
       cursor: pointer;
+
+      &:disabled {
+        background-color: $grey;
+        cursor: default;
+      }
     }
   }
 
@@ -873,7 +880,6 @@ a {
 
       &:focus {
         outline: 1px solid $blue;
-        
       }
     }
 
@@ -901,12 +907,20 @@ a {
   height: auto;
 
   margin-top: 80px;
-position: relative;
+  position: relative;
 
   .deleteCheckContainer {
     position: absolute;
-    top: 0;
+    top: 50%;
     right: 50%;
+    background-color: $lightblue;
+    padding: 20px;
+    z-index: 10;
+    border-radius: 10px;
+
+    p {
+      font-weight: 600;
+    }
   }
 
   h1 {
@@ -920,19 +934,23 @@ position: relative;
     padding-top: 40px;
     width: 100%;
 
+    .deleteButton {
+      width: 93px;
+      height: 44px;
+      background-color: red;
+      margin-right: auto;
+    }
+
+    .confirmDelete {
+      width: 184px;
+    }
+
     button {
       color: white;
       border: none;
       border-radius: 10px;
       font-weight: 600;
       cursor: pointer;
-
-      &:nth-child(1) {
-        width: 93px;
-        height: 44px;
-        background-color: red;
-        margin-right: auto;
-      }
 
       &:nth-child(2) {
         height: 44px;

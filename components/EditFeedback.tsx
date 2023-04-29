@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSession } from 'next-auth/react'
-import clientPromise from '../lib/mongodb'
+import { useRouter } from 'next/router'
 
 interface EditFeedbackProps {
   openEditFeedbackPage: boolean
@@ -20,6 +20,8 @@ export default function EditFeedback({
   const currentPost = data.find((item: any) => item._id === pageId)
 
   const { data: session } = useSession()
+
+  const router = useRouter()
 
   const [isOpen, setIsOpen] = useState(false)
 
@@ -85,7 +87,6 @@ export default function EditFeedback({
   }
 
   const deleteFeedback = async (deleteId: any) => {
-    
     try {
       const response = await fetch('http://localhost:3000/api/feedback', {
         method: 'POST',
@@ -99,20 +100,28 @@ export default function EditFeedback({
     }
   }
 
+  const handleCancelChange = () => {
+    if (changeType === 'Delete') {
+      setChangeType('')
+    } else {
+      setOpenEditFeedbackPage(false)
+    }
+
+
+  }
+
   const handleDeleteButton = () => {
+    if (changeType === 'Delete') {
+      deleteFeedback(currentPost._id)
+      setOpenEditFeedbackPage(false)
+      router.push('/')
+    }
+
     setChangeType('Delete')
   }
 
   return (
     <div className="newFeedbackContainer editFeedbackContainer">
-
-{changeType === 'Delete' && (
-  <div className='deleteCheckContainer'>
-        <p>are you sure?</p>
-        <button onClick={() => deleteFeedback(currentPost._id)}>Yes</button>
-      </div>
-)}
-      
 
       <div>
         <img src="/shared/icon-arrow-left.svg" />
@@ -237,9 +246,14 @@ export default function EditFeedback({
         </div>
 
         <div className="editButtonWrapper">
-          <button  className='deleteButton' onClick={handleDeleteButton}>Delete</button>
-          <button onClick={() => setOpenEditFeedbackPage(false)}>Cancel</button>
-          <button onClick={() => editFeedback(newFeedback)}>Save Changes</button>
+          <button className={`deleteButton ${changeType === 'Delete' ? 'confirmDelete' : ''}`} onClick={handleDeleteButton}>
+            {changeType === 'Delete' ? 'Confirm Delete' : 'Delete'}
+            
+          </button>
+          <button onClick={handleCancelChange}>Cancel</button>
+          <button onClick={() => editFeedback(newFeedback)}>
+            Save Changes
+          </button>
         </div>
       </div>
     </div>

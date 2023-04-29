@@ -10,12 +10,15 @@ import NewFeedback from '../components/NewFeedback'
 import FeedbackPage from '../components/FeedbackPage'
 import EditFeedback from '../components/EditFeedback'
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 interface HomeProps {
   data: any
 }
 
 export default function Home({ data }: HomeProps) {
+  const router = useRouter()
+
   const [tag, setTag] = useState('All')
 
   const [openNewFeedback, setOpenNewFeedback] = useState(false)
@@ -26,8 +29,17 @@ export default function Home({ data }: HomeProps) {
 
   const [pageId, setPageId] = useState('')
 
+  const [isVoting, setIsVoting] = useState(false)
+
   const session = useSession()
 
+
+  useEffect(() => {
+    console.log(isVoting)
+    setIsVoting(false)
+    
+    console.log('runs')
+  },[isVoting])
 
   return (
     <div className="container">
@@ -80,6 +92,9 @@ export default function Home({ data }: HomeProps) {
             pageId={pageId}
             setPageId={setPageId}
             data={data}
+            session={session}
+            isVoting={isVoting}
+            setIsVoting={setIsVoting}
           />
         </main>
       )}

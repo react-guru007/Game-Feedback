@@ -30,7 +30,11 @@ export default async (req, res) => {
 
         const update = { $push: { comments: newComment } }
 
+        
+
         result = await db.collection('feedback').updateOne(filter, update)
+
+        
       }
       // reply comment
       if (req.body.dataType === 'Reply') {

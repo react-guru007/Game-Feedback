@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSession } from 'next-auth/react'
-import clientPromise from '../lib/mongodb'
+import { useRouter } from 'next/router'
 
 interface NewFeedbackProps {
   openNewFeedback: boolean
@@ -13,6 +13,7 @@ export default function NewFeedback({
 }: NewFeedbackProps) {
 const { data: session } = useSession()
 
+const router = useRouter()
 
 
   const [isOpen, setIsOpen] = useState(false)
@@ -61,6 +62,11 @@ const { data: session } = useSession()
         method: 'POST',
         body: JSON.stringify(feedback)
     })
+
+    if (response.ok) {
+      setOpenNewFeedback(false)
+      router.push('/')
+    }
 
 
    } catch (error) {

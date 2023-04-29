@@ -27,6 +27,8 @@ export default function FeedbackPage({
 
   const currentPost = data.find((item: any) => item._id === pageId)
 
+  const authUser = session?.user?.name === currentPost.name
+
   const [postComment, setPostComment] = useState({
     id: '',
     content: '',
@@ -112,6 +114,8 @@ export default function FeedbackPage({
     setOpenEditFeedbackPage(true)
   }
 
+
+  console.log(authUser)
   return (
     <div className="feedbackPageContainer">
       <div className="navContainer">
@@ -119,7 +123,7 @@ export default function FeedbackPage({
           <img src="/shared/icon-arrow-left.svg" />
           <button onClick={() => setOpenFeedbackPage(false)}>Go Back</button>
         </div>
-        <button className="editButton" onClick={handleEditButton}>Edit Feedback</button>
+        <button className="editButton" onClick={handleEditButton} disabled={!authUser}>Edit Feedback</button>
       </div>
 
       <div className="suggestionItem" key={currentPost._id}>
