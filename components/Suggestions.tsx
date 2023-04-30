@@ -24,17 +24,17 @@ export default function Suggestions({
   data,
   session,
   isVoting,
-  setIsVoting
+  setIsVoting,
 }: SuggestionsProps) {
   const router = useRouter()
 
   const user = session?.data?.user?.name
 
+  const [suggestionsData, setSuggestionData] = useState(data)
+
   const [isOpen, setIsOpen] = useState(false)
 
   const [dropValue, setDropValue] = useState('Most Upvotes')
-
-  
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
@@ -62,14 +62,12 @@ export default function Suggestions({
     const feedbackId = currentId
 
     const changeType = 'UPVOTE'
-
-    setIsVoting(true)
-    console.log(isVoting)
-    router.push('/')
+    console.log('1')
 
     if (true) {
-      try {
-        const response = await fetch('http://localhost:3000/api/feedback', {
+      console.log('2')
+      
+        fetch('http://localhost:3000/api/feedback', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -81,21 +79,39 @@ export default function Suggestions({
             currentUpvotes,
           }),
         })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error: ${response.status}`);
+          }
+          console.log("API response:", response);
+          console.log('3')
+          const updatedData = suggestionsData.map((item: any) => {
+            if (item._id === currentId) {
+              return {
+                ...item,
+                upvotes: item.upvotes + 1,
+                upvotedBy: [...item.upvotedBy, user]
+              }
+            }
+            return item
+          })
+
+          setSuggestionData(updatedData)
+          console.log(suggestionsData)
+
+        })
+        .catch((error) => {
+          console.error('Error adding comment:', error);
+        })
 
         
-      } catch (error) {
-        console.error('Error adding comment:', error)
-      }
-
+        
       
     }
-
-    
   }
 
-  
+  console.log(suggestionsData)
 
-  
   return (
     <div className="suggestionsContainer">
       {/* header bar */}
@@ -154,7 +170,7 @@ export default function Suggestions({
 
       {/* list of suggestions */}
 
-      {data.map((item: any) => (
+      {suggestionsData.map((item: any) => (
         <div className="suggestionItem" key={item._id}>
           <button className="upvotes" onClick={() => upvoteFeedback(item._id)}>
             <img src="/shared/icon-arrow-up.svg" />

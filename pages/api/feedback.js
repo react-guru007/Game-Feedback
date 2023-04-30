@@ -35,6 +35,10 @@ export default async (req, res) => {
         const result = await db.collection('feedback').updateOne(filter, update)
 
         const result2 = await db.collection('feedback').updateOne(filter, update2)
+
+
+        //important to include
+        res.status(200).json({ message: 'Upvote updated' });
       } 
       
       else {
