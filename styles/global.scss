@@ -185,7 +185,18 @@ a {
       margin-right: 25px;
       border: none;
       cursor: pointer;
+
+      &:hover {
+        background-color: rgba($purple, 0.2);
+      }
     }
+
+    .upvoted {
+      background-color: $blue;
+      color: white;
+    }
+
+    
 
     .suggestionDescriptionWrapper {
       display: flex;
@@ -963,6 +974,75 @@ a {
         width: 144px;
         background-color: $purple;
       }
+    }
+  }
+}
+
+.roadmapPageContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 40px;
+
+  .roadmapHeaderContainer {
+    display: flex;
+    height: 113px;
+    background-color: $darkpurple;
+    padding: 30px;
+    border-radius: 10px;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      color: white;
+
+      .backButtonWrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        background-color: $darkpurple;
+        border: none;
+        color: white;
+        
+        &:hover {
+          text-decoration: underline;
+        }
+
+        p {
+          font-weight: 500;
+          font-size: 0.9rem;
+        }
+      }
+
+      h1 {
+        font-size: 1.6rem;
+      }
+    }
+
+    .feedbackButton {
+      background-color: $purple;
+    color: white;
+    width: 158px;
+    height: 44px;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: auto;
+
+    img {
+      margin-right: 6px;
+    }
+    }
+  }
+
+  .roadmapLayoutContainer {
+    display: flex;
+
+    .layoutColumn {
+      
     }
   }
 }

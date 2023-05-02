@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import IconArrowUp from './IconArrowUp'
 
 interface SuggestionsProps {
   openNewFeedback: boolean
@@ -12,6 +13,13 @@ interface SuggestionsProps {
   session: any
   isVoting: boolean
   setIsVoting: any
+  suggestionsData: any
+  setSuggestionsData: any
+  tag: string
+  setTag: any
+  tagData: any
+  setTagData: any
+  
 }
 
 export default function Suggestions({
@@ -25,22 +33,49 @@ export default function Suggestions({
   session,
   isVoting,
   setIsVoting,
+  suggestionsData,
+  setSuggestionsData,
+  tag,
+  setTag,
+  tagData,
+  setTagData,
+
 }: SuggestionsProps) {
   const router = useRouter()
 
   const user = session?.data?.user?.name
 
-  const [suggestionsData, setSuggestionData] = useState(data)
+  const arrayToRender = tag !== 'All' ? tagData : suggestionsData
 
   const [isOpen, setIsOpen] = useState(false)
 
   const [dropValue, setDropValue] = useState('Most Upvotes')
+
+  const [hasUserUpvoted, setHasUserUpvoted] = useState(false)
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
   }
 
   const handleMenuItemClick = (value: string) => {
+    if (value === 'Most Upvotes') {
+      setSuggestionsData(suggestionsData.sort((a: any, b: any) => b.upvotes - a.upvotes))
+    }
+
+    if (value === 'Least Upvotes') {
+      setSuggestionsData(suggestionsData.sort((a: any, b: any) => a.upvotes - b.upvotes))
+    }
+
+    if (value === 'Most Comments') {
+      setSuggestionsData(suggestionsData.sort((a: any, b: any) => b.comments.length - a.comments.length))
+    }
+
+    if (value === 'Least Comments') {
+      setSuggestionsData(suggestionsData.sort((a: any, b: any) => a.comments.length - b.comments.length))
+    }
+
+
+
     setDropValue(value)
     setIsOpen(false)
   }
@@ -55,62 +90,52 @@ export default function Suggestions({
 
     const currentUpvotes = currentPost.upvotes
 
-    const hasUserUpvoted = currentPost.upvotedBy.some(
-      (item: any) => item === user
-    )
+    setHasUserUpvoted(currentPost?.upvotedBy?.some((item: any) => item === user))
 
     const feedbackId = currentId
 
     const changeType = 'UPVOTE'
-    console.log('1')
+    
 
-    if (true) {
-      console.log('2')
+    if (!hasUserUpvoted) {
       
-        fetch('http://localhost:3000/api/feedback', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            feedbackId,
-            user,
-            changeType,
-            currentUpvotes,
-          }),
-        })
+
+      fetch('http://localhost:3000/api/feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          feedbackId,
+          user,
+          changeType,
+          currentUpvotes,
+        }),
+      })
         .then((response) => {
           if (!response.ok) {
-            throw new Error(`HTTP error: ${response.status}`);
+            throw new Error(`HTTP error: ${response.status}`)
           }
-          console.log("API response:", response);
-          console.log('3')
+          
           const updatedData = suggestionsData.map((item: any) => {
             if (item._id === currentId) {
               return {
                 ...item,
                 upvotes: item.upvotes + 1,
-                upvotedBy: [...item.upvotedBy, user]
+                upvotedBy: [...item.upvotedBy, user],
               }
             }
             return item
           })
 
-          setSuggestionData(updatedData)
+          setSuggestionsData(updatedData)
           console.log(suggestionsData)
-
         })
         .catch((error) => {
-          console.error('Error adding comment:', error);
+          console.error('Error adding comment:', error)
         })
-
-        
-        
-      
     }
   }
-
-  console.log(suggestionsData)
 
   return (
     <div className="suggestionsContainer">
@@ -170,10 +195,19 @@ export default function Suggestions({
 
       {/* list of suggestions */}
 
-      {suggestionsData.map((item: any) => (
-        <div className="suggestionItem" key={item._id}>
-          <button className="upvotes" onClick={() => upvoteFeedback(item._id)}>
-            <img src="/shared/icon-arrow-up.svg" />
+      {arrayToRender.map((item: any, index: number) => (
+        <div className="suggestionItem" key={index}>
+          <button
+            className={`${
+              item?.upvotedBy?.some((item2: any) => item2 === item.name) &&
+              'upvoted'
+            } upvotes`}
+            onClick={() => upvoteFeedback(item._id)}
+          >
+            <IconArrowUp className='iconArrowUp' strokeColor={`${
+              item?.upvotedBy?.some((item2: any) => item2 === item.name) ?
+              'white' : '#4661E6'
+            }`}/>
             <p>{item.upvotes}</p>
           </button>
           <div className="suggestionDescriptionWrapper">

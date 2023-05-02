@@ -23,6 +23,8 @@ export default async (req, res) => {
         const filter = { _id: objectId }
 
         const result = await db.collection('feedback').deleteOne(filter)
+
+        res.status(200).json({ message: 'feedback deleted' });
       } 
 
       if (req.body.changeType === 'UPVOTE') {
@@ -33,6 +35,7 @@ export default async (req, res) => {
         const update2 = { $set: { upvotes: req.body.currentUpvotes + 1}}
 
         const result = await db.collection('feedback').updateOne(filter, update)
+
 
         const result2 = await db.collection('feedback').updateOne(filter, update2)
 

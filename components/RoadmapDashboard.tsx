@@ -1,11 +1,16 @@
 import React from 'react'
 
-export default function RoadmapDashboard() {
+interface RoadmapProps {
+  openRoadmapPage: any
+  setOpenRoadmapPage: any
+}
+
+export default function RoadmapDashboard({ openRoadmapPage, setOpenRoadmapPage }: RoadmapProps) {
   return (
     <div className="roadmapContainer">
       <div className="roadmapHeader">
         <h2>Roadmap</h2>
-        <a>View</a>
+        <a onClick={() => setOpenRoadmapPage(true)}>View</a>
       </div>
 
       <div className="statusContainer">

@@ -5,11 +5,15 @@ import { useRouter } from 'next/router'
 interface NewFeedbackProps {
   openNewFeedback: boolean
   setOpenNewFeedback: any
+  suggestionsData: any
+  setSuggestionsData: any
 }
 
 export default function NewFeedback({
   openNewFeedback,
   setOpenNewFeedback,
+  suggestionsData,
+  setSuggestionsData
 }: NewFeedbackProps) {
 const { data: session } = useSession()
 
@@ -21,7 +25,6 @@ const router = useRouter()
   const [dropValue, setDropValue] = useState('')
 
   const [newFeedback, setNewFeedback] = useState({
-    id: '',
     title: '',
     category: '',
     upvotes: 0,
@@ -29,6 +32,7 @@ const router = useRouter()
     description: '',
     name: session?.user?.name,
     comments: [],
+    upvotedBy: []
   })
 
   const toggleDropdown = () => {
@@ -63,7 +67,10 @@ const router = useRouter()
         body: JSON.stringify(feedback)
     })
 
+
+
     if (response.ok) {
+      setSuggestionsData([...suggestionsData, newFeedback])
       setOpenNewFeedback(false)
       router.push('/')
     }

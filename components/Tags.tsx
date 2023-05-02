@@ -1,11 +1,21 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 interface TagProps {
   tag: string
   setTag: any
+  suggestionsData: any
+  setSuggestionsData: any
+  tagData: any
+  setTagData: any
 }
 
-export default function Tags({ tag, setTag }: TagProps) {
+export default function Tags({ tag, setTag, suggestionsData, setSuggestionsData, tagData, setTagData }: TagProps) {
+
+
+  useEffect(() => {
+    setTagData(suggestionsData.filter((item: any) => item.category === tag))
+  },[tag])
+
   return (
     <div className='tagsContainer'>
       <ul>

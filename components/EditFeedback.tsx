@@ -8,6 +8,8 @@ interface EditFeedbackProps {
   pageId: string
   setPageId: any
   data: any
+  suggestionsData: any
+  setSuggestionsData: any
 }
 
 export default function EditFeedback({
@@ -16,6 +18,8 @@ export default function EditFeedback({
   pageId,
   setPageId,
   data,
+  suggestionsData,
+  setSuggestionsData
 }: EditFeedbackProps) {
   const currentPost = data.find((item: any) => item._id === pageId)
 
@@ -95,6 +99,10 @@ export default function EditFeedback({
         },
         body: JSON.stringify({ deleteId, changeType }),
       })
+
+      if (response.ok) {
+        setSuggestionsData(suggestionsData.filter((item: any) => item._id !== deleteId))
+      }
     } catch (error) {
       console.error('Error adding comment:', error)
     }

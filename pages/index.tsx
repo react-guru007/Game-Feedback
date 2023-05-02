@@ -11,6 +11,7 @@ import FeedbackPage from '../components/FeedbackPage'
 import EditFeedback from '../components/EditFeedback'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import RoadmapPage from '../components/RoadmapPage'
 
 interface HomeProps {
   data: any
@@ -19,7 +20,11 @@ interface HomeProps {
 export default function Home({ data }: HomeProps) {
   const router = useRouter()
 
+  const [suggestionsData, setSuggestionData] = useState(data)
+
   const [tag, setTag] = useState('All')
+
+  const [tagData, setTagData] = useState(data)
 
   const [openNewFeedback, setOpenNewFeedback] = useState(false)
 
@@ -27,19 +32,13 @@ export default function Home({ data }: HomeProps) {
 
   const [openEditFeedbackPage, setOpenEditFeedbackPage] = useState(false)
 
+  const [openRoadmapPage, setOpenRoadmapPage] = useState(false)
+
   const [pageId, setPageId] = useState('')
 
   const [isVoting, setIsVoting] = useState(false)
 
   const session = useSession()
-
-
-  useEffect(() => {
-    console.log(isVoting)
-    setIsVoting(false)
-    
-    console.log('runs')
-  },[isVoting])
 
   return (
     <div className="container">
@@ -51,11 +50,13 @@ export default function Home({ data }: HomeProps) {
         <NewFeedback
           openNewFeedback={openNewFeedback}
           setOpenNewFeedback={setOpenNewFeedback}
+          suggestionsData={suggestionsData}
+          setSuggestionsData={setSuggestionData}
         />
       )}
 
       {openFeedbackPage && (
-        <FeedbackPage 
+        <FeedbackPage
           openFeedbackPage={openFeedbackPage}
           setOpenFeedbackPage={setOpenFeedbackPage}
           openEditFeedbackPage={openEditFeedbackPage}
@@ -67,37 +68,65 @@ export default function Home({ data }: HomeProps) {
       )}
 
       {openEditFeedbackPage && (
-        <EditFeedback 
-        openEditFeedbackPage={openEditFeedbackPage}
-        setOpenEditFeedbackPage={setOpenEditFeedbackPage}
-        pageId={pageId}
-        setPageId={setPageId}
-        data={data}
+        <EditFeedback
+          openEditFeedbackPage={openEditFeedbackPage}
+          setOpenEditFeedbackPage={setOpenEditFeedbackPage}
+          pageId={pageId}
+          setPageId={setPageId}
+          data={data}
+          suggestionsData={suggestionsData}
+          setSuggestionsData={setSuggestionData}
         />
       )}
 
-      {!openNewFeedback && !openFeedbackPage && !openEditFeedbackPage &&(
-        <main className={`main`}>
-          <section>
-            <Banner />
-            <Tags tag={tag} setTag={setTag} />
-            <RoadmapDashboard />
-          </section>
-
-          <Suggestions
-            openNewFeedback={openNewFeedback}
-            setOpenNewFeedback={setOpenNewFeedback}
-            openFeedbackPage={openFeedbackPage}
-            setOpenFeedbackPage={setOpenFeedbackPage}
-            pageId={pageId}
-            setPageId={setPageId}
-            data={data}
-            session={session}
-            isVoting={isVoting}
-            setIsVoting={setIsVoting}
-          />
-        </main>
+      {openRoadmapPage && (
+        <RoadmapPage
+          openRoadmapPage={openRoadmapPage}
+          setOpenRoadmapPage={setOpenRoadmapPage}
+        />
       )}
+
+      {!openNewFeedback &&
+        !openFeedbackPage &&
+        !openEditFeedbackPage &&
+        !openRoadmapPage && (
+          <main className={`main`}>
+            <section>
+              <Banner />
+              <Tags
+                tag={tag}
+                setTag={setTag}
+                suggestionsData={suggestionsData}
+                setSuggestionsData={setSuggestionData}
+                tagData={tagData}
+                setTagData={setTagData}
+              />
+              <RoadmapDashboard
+                openRoadmapPage={openRoadmapPage}
+                setOpenRoadmapPage={setOpenRoadmapPage}
+              />
+            </section>
+
+            <Suggestions
+              openNewFeedback={openNewFeedback}
+              setOpenNewFeedback={setOpenNewFeedback}
+              openFeedbackPage={openFeedbackPage}
+              setOpenFeedbackPage={setOpenFeedbackPage}
+              pageId={pageId}
+              setPageId={setPageId}
+              data={data}
+              session={session}
+              isVoting={isVoting}
+              setIsVoting={setIsVoting}
+              suggestionsData={suggestionsData}
+              setSuggestionsData={setSuggestionData}
+              tag={tag}
+              setTag={setTag}
+              tagData={tagData}
+              setTagData={setTagData}
+            />
+          </main>
+        )}
     </div>
   )
 }
