@@ -83,6 +83,13 @@ export default function Home({ data }: HomeProps) {
         <RoadmapPage
           openRoadmapPage={openRoadmapPage}
           setOpenRoadmapPage={setOpenRoadmapPage}
+          suggestionsData={suggestionsData}
+          setSuggestionsData={setSuggestionData}
+          session={session}
+          pageId={pageId}
+          setPageId={setPageId}
+          openFeedbackPage={openFeedbackPage}
+          setOpenFeedbackPage={setOpenFeedbackPage}
         />
       )}
 

@@ -19,7 +19,7 @@ export default function EditFeedback({
   setPageId,
   data,
   suggestionsData,
-  setSuggestionsData
+  setSuggestionsData,
 }: EditFeedbackProps) {
   const currentPost = data.find((item: any) => item._id === pageId)
 
@@ -37,7 +37,7 @@ export default function EditFeedback({
 
   const [newFeedback, setNewFeedback] = useState(currentPost)
 
-  const [changeType, setChangeType] = useState('')
+  const [changeType, setChangeType] = useState('Edit')
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
@@ -80,11 +80,29 @@ export default function EditFeedback({
   }
 
   const editFeedback = async (feedback: any) => {
+    const editId = currentPost._id
+
     try {
       const response = await fetch('http://localhost:3000/api/feedback', {
         method: 'POST',
-        body: JSON.stringify(feedback),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          feedback: newFeedback,
+          editId: currentPost._id,
+          changeType: 'Edit',
+        }),
       })
+
+      if (response.ok) {
+        setSuggestionsData((suggestionData: any) =>
+          suggestionData.map((item: any) =>
+            item._id === feedback._id ? feedback : item
+          )
+        )
+        setOpenEditFeedbackPage(false)
+      }
     } catch (error) {
       console.error('Error adding feedback:', error)
     }
@@ -101,7 +119,9 @@ export default function EditFeedback({
       })
 
       if (response.ok) {
-        setSuggestionsData(suggestionsData.filter((item: any) => item._id !== deleteId))
+        setSuggestionsData(
+          suggestionsData.filter((item: any) => item._id !== deleteId)
+        )
       }
     } catch (error) {
       console.error('Error adding comment:', error)
@@ -114,8 +134,6 @@ export default function EditFeedback({
     } else {
       setOpenEditFeedbackPage(false)
     }
-
-
   }
 
   const handleDeleteButton = () => {
@@ -128,9 +146,9 @@ export default function EditFeedback({
     setChangeType('Delete')
   }
 
+  console.log(changeType)
   return (
     <div className="newFeedbackContainer editFeedbackContainer">
-
       <div>
         <img src="/shared/icon-arrow-left.svg" />
         <button onClick={() => setOpenEditFeedbackPage(false)}>Go Back</button>
@@ -254,9 +272,13 @@ export default function EditFeedback({
         </div>
 
         <div className="editButtonWrapper">
-          <button className={`deleteButton ${changeType === 'Delete' ? 'confirmDelete' : ''}`} onClick={handleDeleteButton}>
+          <button
+            className={`deleteButton ${
+              changeType === 'Delete' ? 'confirmDelete' : ''
+            }`}
+            onClick={handleDeleteButton}
+          >
             {changeType === 'Delete' ? 'Confirm Delete' : 'Delete'}
-            
           </button>
           <button onClick={handleCancelChange}>Cancel</button>
           <button onClick={() => editFeedback(newFeedback)}>

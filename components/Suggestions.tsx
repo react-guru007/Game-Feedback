@@ -19,7 +19,6 @@ interface SuggestionsProps {
   setTag: any
   tagData: any
   setTagData: any
-  
 }
 
 export default function Suggestions({
@@ -39,9 +38,14 @@ export default function Suggestions({
   setTag,
   tagData,
   setTagData,
-
 }: SuggestionsProps) {
   const router = useRouter()
+
+  const [strokeColor, setStrokeColor] = useState('#4661E6');
+  
+
+
+
 
   const user = session?.data?.user?.name
 
@@ -59,22 +63,32 @@ export default function Suggestions({
 
   const handleMenuItemClick = (value: string) => {
     if (value === 'Most Upvotes') {
-      setSuggestionsData(suggestionsData.sort((a: any, b: any) => b.upvotes - a.upvotes))
+      setSuggestionsData(
+        suggestionsData.sort((a: any, b: any) => b.upvotes - a.upvotes)
+      )
     }
 
     if (value === 'Least Upvotes') {
-      setSuggestionsData(suggestionsData.sort((a: any, b: any) => a.upvotes - b.upvotes))
+      setSuggestionsData(
+        suggestionsData.sort((a: any, b: any) => a.upvotes - b.upvotes)
+      )
     }
 
     if (value === 'Most Comments') {
-      setSuggestionsData(suggestionsData.sort((a: any, b: any) => b.comments.length - a.comments.length))
+      setSuggestionsData(
+        suggestionsData.sort(
+          (a: any, b: any) => b.comments.length - a.comments.length
+        )
+      )
     }
 
     if (value === 'Least Comments') {
-      setSuggestionsData(suggestionsData.sort((a: any, b: any) => a.comments.length - b.comments.length))
+      setSuggestionsData(
+        suggestionsData.sort(
+          (a: any, b: any) => a.comments.length - b.comments.length
+        )
+      )
     }
-
-
 
     setDropValue(value)
     setIsOpen(false)
@@ -86,55 +100,61 @@ export default function Suggestions({
   }
 
   const upvoteFeedback = async (currentId: any) => {
-    const currentPost = data.find((item: any) => item._id === currentId)
+    const currentPost = suggestionsData.find(
+      (item: any) => item._id === currentId
+    )
 
     const currentUpvotes = currentPost.upvotes
 
-    setHasUserUpvoted(currentPost?.upvotedBy?.some((item: any) => item === user))
+    setHasUserUpvoted(
+      currentPost?.upvotedBy?.some((item: any) => item === user)
+    )
 
     const feedbackId = currentId
 
     const changeType = 'UPVOTE'
-    
 
-    if (!hasUserUpvoted) {
-      
+    fetch('http://localhost:3000/api/feedback', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        feedbackId,
+        user,
+        changeType,
+        currentUpvotes,
+        hasUserUpvoted: currentPost?.upvotedBy?.some(
+          (item: any) => item === user
+        ),
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`)
+        }
 
-      fetch('http://localhost:3000/api/feedback', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          feedbackId,
-          user,
-          changeType,
-          currentUpvotes,
-        }),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error: ${response.status}`)
-          }
-          
-          const updatedData = suggestionsData.map((item: any) => {
-            if (item._id === currentId) {
-              return {
-                ...item,
-                upvotes: item.upvotes + 1,
-                upvotedBy: [...item.upvotedBy, user],
-              }
+        const updatedData = suggestionsData.map((item: any) => {
+          if (item._id === currentId) {
+            const userExists = item.upvotedBy.includes(user)
+            const updatedUpvotedBy = userExists
+              ? item.upvotedBy.filter((u: any) => u !== user)
+              : [...item.upvotedBy, user]
+
+            return {
+              ...item,
+              upvotes: !hasUserUpvoted ? item.upvotes - 1 : item.upvotes + 1,
+              upvotedBy: updatedUpvotedBy,
             }
-            return item
-          })
+          }
+          return item
+        })
 
-          setSuggestionsData(updatedData)
-          console.log(suggestionsData)
-        })
-        .catch((error) => {
-          console.error('Error adding comment:', error)
-        })
-    }
+        setSuggestionsData(updatedData)
+      })
+      .catch((error) => {
+        console.error('Error adding comment:', error)
+      })
   }
 
   return (
@@ -203,11 +223,17 @@ export default function Suggestions({
               'upvoted'
             } upvotes`}
             onClick={() => upvoteFeedback(item._id)}
+            data-upvoted={item?.upvotedBy?.some((item2: any) => item2 === item.name) ? 'upvoted' : 'notUpvoted'}
+
+            
           >
-            <IconArrowUp className='iconArrowUp' strokeColor={`${
-              item?.upvotedBy?.some((item2: any) => item2 === item.name) ?
-              'white' : '#4661E6'
-            }`}/>
+            <IconArrowUp
+              className={`${item?.upvotedBy?.some((item2: any) => item2 === item.name) ? '' : 'downvotedArrow'} iconArrowUp`}
+              strokeColor={`${
+                item?.upvotedBy?.some((item2: any) => item2 === item.name) ?
+                'white' : '#4661E6'
+              }`}
+            />
             <p>{item.upvotes}</p>
           </button>
           <div className="suggestionDescriptionWrapper">
@@ -219,7 +245,7 @@ export default function Suggestions({
             className="commentsWrapper"
             onClick={() => handleOpenFeedbackPage(item._id)}
           >
-            <p>{item.comments.length}</p>
+            <p>{item.comments?.length}</p>
             <img src="/shared/icon-comments.svg" />
           </div>
         </div>

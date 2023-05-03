@@ -27,7 +27,7 @@ export default function FeedbackPage({
 
   const currentPost = data.find((item: any) => item._id === pageId)
 
-  const authUser = session?.user?.name === currentPost.name
+  const authUser = session?.user?.name === currentPost?.name
 
   const [postComment, setPostComment] = useState({
     id: '',
@@ -115,7 +115,7 @@ export default function FeedbackPage({
   }
 
 
-  console.log(authUser)
+  
   return (
     <div className="feedbackPageContainer">
       <div className="navContainer">

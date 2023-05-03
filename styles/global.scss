@@ -189,14 +189,34 @@ a {
       &:hover {
         background-color: rgba($purple, 0.2);
       }
+
+      &[data-upvoted='upvoted']:hover {
+        color: black;
+
+
+      }
+    }
+
+    .iconArrowUp {
+      .upvotedArrow {
+        
+          stroke: white;
+          
+
+          
+      }
+
+      .downvotedArrow {
+        
+          stroke: $blue;
+        
+      }
     }
 
     .upvoted {
       background-color: $blue;
       color: white;
     }
-
-    
 
     .suggestionDescriptionWrapper {
       display: flex;
@@ -1005,7 +1025,7 @@ a {
         background-color: $darkpurple;
         border: none;
         color: white;
-        
+
         &:hover {
           text-decoration: underline;
         }
@@ -1023,26 +1043,168 @@ a {
 
     .feedbackButton {
       background-color: $purple;
-    color: white;
-    width: 158px;
-    height: 44px;
-    border: none;
-    border-radius: 10px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-left: auto;
+      color: white;
+      width: 158px;
+      height: 44px;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: auto;
 
-    img {
-      margin-right: 6px;
-    }
+      img {
+        margin-right: 6px;
+      }
     }
   }
 
   .roadmapLayoutContainer {
     display: flex;
+    justify-content: space-around;
 
     .layoutColumn {
-      
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      width: 350px;
+      margin-top: 40px;
+      align-self: flex-start;
+      gap: 40px;
+      padding-bottom: 40px;
+
+      .columnHeader {
+        width: 100%;
+
+        h2 {
+          color: $darkpurple;
+        }
+
+        p {
+          color: $grey;
+          font-size: 1.2rem;
+        }
+      }
+
+      .roadmapItem {
+        display: flex;
+        flex-direction: column;
+        height: 272px;
+        width: 100%;
+        background-color: white;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+
+        .colorBar {
+          height: 6px;
+          width: 100%;
+          border-top-right-radius: 10px;
+          border-top-left-radius: 10px;
+        }
+
+        .plannedColor {
+          background-color: $cream;
+        }
+
+        .progressColor {
+          background-color: $purple;
+        }
+
+        .liveColor {
+          background-color: $lightblue;
+        }
+
+        .itemContent {
+          display: flex;
+          flex-direction: column;
+          padding: 30px;
+          height: 100%;
+          gap: 10px;
+
+          h3 {
+            color: $darkpurple;
+          }
+
+          p {
+            color: $grey;
+          }
+
+          .statusWrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            div {
+              height: 8px;
+              width: 8px;
+              border-radius: 50%;
+              background-color: $purple;
+            }
+
+            .plannedColor {
+              background-color: $cream;
+            }
+
+            .progressColor {
+              background-color: $purple;
+            }
+
+            .liveColor {
+              background-color: $lightblue;
+            }
+
+            p {
+              color: $grey;
+            }
+          }
+
+          .itemFooter {
+            display: flex;
+            margin-top: auto;
+
+            .commentsWrapper {
+              display: flex;
+              align-items: center;
+              margin-left: auto;
+              gap: 2px;
+              background-color: transparent;
+              border: none;
+              cursor: pointer;
+            }
+
+            .roadmapUpvoteButton {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 6px;
+              height: 40px;
+              width: 69px;
+              background-color: $light2;
+              border: none;
+              border-radius: 10px;
+              font-weight: 700;
+              cursor: pointer;
+            }
+
+            .upvoted {
+              background-color: $blue;
+              color: white;
+            }
+          }
+
+          .itemCategory {
+            display: flex;
+            height: 30px;
+            padding: 14px;
+            background-color: $light1;
+            align-items: center;
+            color: $blue;
+            font-weight: 700;
+            width: fit-content;
+            border-radius: 10px;
+          }
+        }
+      }
     }
   }
 }

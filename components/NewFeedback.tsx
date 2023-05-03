@@ -19,12 +19,14 @@ const { data: session } = useSession()
 
 const router = useRouter()
 
+  const changeType = 'Add'
 
   const [isOpen, setIsOpen] = useState(false)
 
   const [dropValue, setDropValue] = useState('')
 
   const [newFeedback, setNewFeedback] = useState({
+    
     title: '',
     category: '',
     upvotes: 0,
@@ -64,10 +66,11 @@ const router = useRouter()
    try {
     const response = await fetch('http://localhost:3000/api/feedback', {
         method: 'POST',
-        body: JSON.stringify(feedback)
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({feedback, changeType})
     })
-
-
 
     if (response.ok) {
       setSuggestionsData([...suggestionsData, newFeedback])
@@ -75,14 +78,12 @@ const router = useRouter()
       router.push('/')
     }
 
-
    } catch (error) {
     console.error('Error adding feedback:', error);
    }
     
   }
 
-  
 
   return (
     <div className="newFeedbackContainer">
