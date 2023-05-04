@@ -159,6 +159,10 @@ a {
     border-radius: 10px;
     font-weight: 600;
     cursor: pointer;
+
+    &:hover {
+      background-color: #C75AF6;
+    }
   }
 
   .suggestionItem {
@@ -192,24 +196,16 @@ a {
 
       &[data-upvoted='upvoted']:hover {
         color: black;
-
-
       }
     }
 
     .iconArrowUp {
       .upvotedArrow {
-        
-          stroke: white;
-          
-
-          
+        stroke: white;
       }
 
       .downvotedArrow {
-        
-          stroke: $blue;
-        
+        stroke: $blue;
       }
     }
 
@@ -468,6 +464,11 @@ a {
     .formItemWrapper {
       position: relative;
 
+      .errorMessage {
+        position: absolute;
+        color: red;
+      }
+
       .open {
         outline: 1px solid $blue;
       }
@@ -511,6 +512,10 @@ a {
         border: none;
         border-radius: 6px;
         font-size: 1rem;
+      }
+
+      .empty {
+        border: 1px solid red;
       }
 
       .categoryDropdownButton {
@@ -1052,6 +1057,10 @@ a {
       cursor: pointer;
       margin-left: auto;
 
+      &:hover {
+        background-color: #C75AF6;
+      }
+
       img {
         margin-right: 6px;
       }
@@ -1162,14 +1171,23 @@ a {
             display: flex;
             margin-top: auto;
 
+           
+
+            
+
             .commentsWrapper {
               display: flex;
               align-items: center;
               margin-left: auto;
-              gap: 2px;
+              gap: 6px;
               background-color: transparent;
               border: none;
               cursor: pointer;
+
+              p {
+                font-weight: 700;
+                color: $darkpurple;
+              }
             }
 
             .roadmapUpvoteButton {
@@ -1184,11 +1202,20 @@ a {
               border-radius: 10px;
               font-weight: 700;
               cursor: pointer;
+
+              &:hover {
+                background-color: rgba($purple, 0.2);
+                color: black;
+              }
+        
+              
             }
 
             .upvoted {
               background-color: $blue;
               color: white;
+
+              
             }
           }
 

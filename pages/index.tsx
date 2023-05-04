@@ -90,6 +90,8 @@ export default function Home({ data }: HomeProps) {
           setPageId={setPageId}
           openFeedbackPage={openFeedbackPage}
           setOpenFeedbackPage={setOpenFeedbackPage}
+          openNewFeedback={openNewFeedback}
+          setOpenNewFeedback={setOpenNewFeedback}
         />
       )}
 
@@ -111,6 +113,8 @@ export default function Home({ data }: HomeProps) {
               <RoadmapDashboard
                 openRoadmapPage={openRoadmapPage}
                 setOpenRoadmapPage={setOpenRoadmapPage}
+                suggestionsData={suggestionsData}
+                setSuggestionsData={setSuggestionData}
               />
             </section>
 

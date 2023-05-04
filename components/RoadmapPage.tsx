@@ -11,6 +11,8 @@ interface RoadmapPageProps {
   setPageId: any
   openFeedbackPage: boolean
   setOpenFeedbackPage: any
+  openNewFeedback: any
+  setOpenNewFeedback: any
 }
 
 export default function RoadmapPage({
@@ -22,17 +24,25 @@ export default function RoadmapPage({
   pageId,
   setPageId,
   openFeedbackPage,
-  setOpenFeedbackPage
+  setOpenFeedbackPage,
+  openNewFeedback,
+  setOpenNewFeedback
 }: RoadmapPageProps) {
   const user = session?.data?.user?.name
 
   const [hasUserUpvoted, setHasUserUpvoted] = useState(false)
 
+  const [strokeColors, setStrokeColors] = useState<Record<string, string>>({})
+
   const handleOpenFeedbackPage = (id: string) => {
     setPageId(id)
     setOpenRoadmapPage(false)
     setOpenFeedbackPage(true)
-    
+  }
+
+  const handleOpenNewFeedbackPage = () => {
+    setOpenRoadmapPage(false)
+    setOpenNewFeedback(true)
   }
 
   const upvoteFeedback = async (currentId: any) => {
@@ -107,7 +117,7 @@ export default function RoadmapPage({
           </button>
           <h1>Roadmap</h1>
         </div>
-        <button className="feedbackButton">
+        <button className="feedbackButton" onClick={handleOpenNewFeedbackPage}>
           <img src="/shared/icon-plus.svg" />
           Add Feedback
         </button>
@@ -150,6 +160,30 @@ export default function RoadmapPage({
                         ) && 'upvoted'
                       } roadmapUpvoteButton`}
                       onClick={() => upvoteFeedback(item._id)}
+                      onMouseEnter={() => {
+                        if (
+                          item?.upvotedBy?.some(
+                            (item2: any) => item2 === item.name
+                          )
+                        ) {
+                          setStrokeColors((prevColors: any) => ({
+                            ...prevColors,
+                            [item._id]: 'black',
+                          }))
+                        }
+                      }}
+                      onMouseLeave={() => {
+                        if (
+                          item?.upvotedBy?.some(
+                            (item2: any) => item2 === item.name
+                          )
+                        ) {
+                          setStrokeColors((prevColors) => ({
+                            ...prevColors,
+                            [item._id]: 'white',
+                          }))
+                        }
+                      }}
                     >
                       <IconArrowUp
                         className="iconArrowUp"
@@ -157,13 +191,16 @@ export default function RoadmapPage({
                           item?.upvotedBy?.some(
                             (item2: any) => item2 === item.name
                           )
-                            ? 'white'
+                            ? strokeColors[item._id] || 'white'
                             : '#4661E6'
                         }`}
                       />
                       {item.upvotes}
                     </button>
-                    <button className="commentsWrapper" onClick={() => handleOpenFeedbackPage(item._id)}>
+                    <button
+                      className="commentsWrapper"
+                      onClick={() => handleOpenFeedbackPage(item._id)}
+                    >
                       <img
                         src="/shared/icon-comments.svg"
                         alt="comment bubble"
@@ -204,20 +241,48 @@ export default function RoadmapPage({
                   <p>{item.description}</p>
                   <div className="itemCategory">{item.category}</div>
                   <div className="itemFooter">
-                    <button className={`${
+                  <button
+                      className={`${
                         item?.upvotedBy?.some(
                           (item2: any) => item2 === item.name
                         ) && 'upvoted'
                       } roadmapUpvoteButton`}
-                      onClick={() => upvoteFeedback(item._id)}>
-                      <IconArrowUp className="iconArrowUp"
+                      onClick={() => upvoteFeedback(item._id)}
+                      onMouseEnter={() => {
+                        if (
+                          item?.upvotedBy?.some(
+                            (item2: any) => item2 === item.name
+                          )
+                        ) {
+                          setStrokeColors((prevColors: any) => ({
+                            ...prevColors,
+                            [item._id]: 'black',
+                          }))
+                        }
+                      }}
+                      onMouseLeave={() => {
+                        if (
+                          item?.upvotedBy?.some(
+                            (item2: any) => item2 === item.name
+                          )
+                        ) {
+                          setStrokeColors((prevColors) => ({
+                            ...prevColors,
+                            [item._id]: 'white',
+                          }))
+                        }
+                      }}
+                    >
+                      <IconArrowUp
+                        className="iconArrowUp"
                         strokeColor={`${
                           item?.upvotedBy?.some(
                             (item2: any) => item2 === item.name
                           )
-                            ? 'white'
+                            ? strokeColors[item._id] || 'white'
                             : '#4661E6'
-                        }`} />
+                        }`}
+                      />
                       {item.upvotes}
                     </button>
                     <div className="commentsWrapper">
@@ -260,20 +325,48 @@ export default function RoadmapPage({
                   <p>{item.description}</p>
                   <div className="itemCategory">{item.category}</div>
                   <div className="itemFooter">
-                    <button className={`${
+                  <button
+                      className={`${
                         item?.upvotedBy?.some(
                           (item2: any) => item2 === item.name
                         ) && 'upvoted'
                       } roadmapUpvoteButton`}
-                      onClick={() => upvoteFeedback(item._id)}>
-                      <IconArrowUp className="iconArrowUp"
+                      onClick={() => upvoteFeedback(item._id)}
+                      onMouseEnter={() => {
+                        if (
+                          item?.upvotedBy?.some(
+                            (item2: any) => item2 === item.name
+                          )
+                        ) {
+                          setStrokeColors((prevColors: any) => ({
+                            ...prevColors,
+                            [item._id]: 'black',
+                          }))
+                        }
+                      }}
+                      onMouseLeave={() => {
+                        if (
+                          item?.upvotedBy?.some(
+                            (item2: any) => item2 === item.name
+                          )
+                        ) {
+                          setStrokeColors((prevColors) => ({
+                            ...prevColors,
+                            [item._id]: 'white',
+                          }))
+                        }
+                      }}
+                    >
+                      <IconArrowUp
+                        className="iconArrowUp"
                         strokeColor={`${
                           item?.upvotedBy?.some(
                             (item2: any) => item2 === item.name
                           )
-                            ? 'white'
+                            ? strokeColors[item._id] || 'white'
                             : '#4661E6'
-                        }`} />
+                        }`}
+                      />
                       {item.upvotes}
                     </button>
                     <div className="commentsWrapper">

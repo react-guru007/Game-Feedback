@@ -23,6 +23,10 @@ const router = useRouter()
 
   const [isOpen, setIsOpen] = useState(false)
 
+  const [isEmpty, setIsEmpty] = useState(true)
+
+  const [textError, setTextError] = useState(false)
+
   const [dropValue, setDropValue] = useState('')
 
   const [newFeedback, setNewFeedback] = useState({
@@ -57,13 +61,26 @@ const router = useRouter()
   }
 
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    if (e.target.value === '') {
+      setIsEmpty(true)
+    } else {
+      setIsEmpty(false)
+      setTextError(false)
+    }
+
     let copyObj = newFeedback
     copyObj.description = e.target.value
     setNewFeedback(copyObj)
   }
 
   const addFeedback = async (feedback: any) => {
-   try {
+
+    if (isEmpty) {
+      
+      setTextError(true)
+    } else {
+
+      try {
     const response = await fetch('http://localhost:3000/api/feedback', {
         method: 'POST',
         headers: {
@@ -81,6 +98,9 @@ const router = useRouter()
    } catch (error) {
     console.error('Error adding feedback:', error);
    }
+    }
+
+   
     
   }
 
@@ -157,7 +177,10 @@ const router = useRouter()
             Include any specific comments on what should be improved, added,
             etc.
           </p>
-          <textarea className="feedbackDetail" onChange={handleDescriptionChange}></textarea>
+          <textarea className={`feedbackDetail ${textError && 'empty'}`} onChange={handleDescriptionChange}></textarea>
+          {textError && (
+            <p className='errorMessage'>Cant be Empty</p>
+          )}
         </div>
 
         <div className="buttonWrapper">

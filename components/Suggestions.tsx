@@ -41,11 +41,7 @@ export default function Suggestions({
 }: SuggestionsProps) {
   const router = useRouter()
 
-  const [strokeColor, setStrokeColor] = useState('#4661E6');
-  
-
-
-
+  const [strokeColors, setStrokeColors] = useState<Record<string, string>>({})
 
   const user = session?.data?.user?.name
 
@@ -223,15 +219,38 @@ export default function Suggestions({
               'upvoted'
             } upvotes`}
             onClick={() => upvoteFeedback(item._id)}
-            data-upvoted={item?.upvotedBy?.some((item2: any) => item2 === item.name) ? 'upvoted' : 'notUpvoted'}
-
-            
+            data-upvoted={
+              item?.upvotedBy?.some((item2: any) => item2 === item.name)
+                ? 'upvoted'
+                : 'notUpvoted'
+            }
+            onMouseEnter={() => {
+              if (item?.upvotedBy?.some((item2: any) => item2 === item.name)) {
+                setStrokeColors((prevColors: any) => ({
+                  ...prevColors,
+                  [item._id]: 'black',
+                }))
+              }
+            }}
+            onMouseLeave={() => {
+              if (item?.upvotedBy?.some((item2: any) => item2 === item.name)) {
+                setStrokeColors((prevColors) => ({
+                  ...prevColors,
+                  [item._id]: 'white',
+                }))
+              }
+            }}
           >
             <IconArrowUp
-              className={`${item?.upvotedBy?.some((item2: any) => item2 === item.name) ? '' : 'downvotedArrow'} iconArrowUp`}
+              className={`${
+                item?.upvotedBy?.some((item2: any) => item2 === item.name)
+                  ? ''
+                  : 'downvotedArrow'
+              } iconArrowUp`}
               strokeColor={`${
-                item?.upvotedBy?.some((item2: any) => item2 === item.name) ?
-                'white' : '#4661E6'
+                item?.upvotedBy?.some((item2: any) => item2 === item.name)
+                  ? strokeColors[item._id] || 'white'
+                  : '#4661E6'
               }`}
             />
             <p>{item.upvotes}</p>
