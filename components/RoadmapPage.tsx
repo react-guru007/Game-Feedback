@@ -141,7 +141,7 @@ export default function RoadmapPage({
           {suggestionsData
             .filter((item: any) => item.status === 'Planned')
             .map((item: any) => (
-              <div className="roadmapItem">
+              <div className="roadmapItem" key={item._id}>
                 <div className="colorBar plannedColor"></div>
                 <div className="itemContent">
                   <div className="statusWrapper">
@@ -285,13 +285,13 @@ export default function RoadmapPage({
                       />
                       {item.upvotes}
                     </button>
-                    <div className="commentsWrapper">
+                    <button className="commentsWrapper" onClick={() => handleOpenFeedbackPage(item._id)}>
                       <img
                         src="/shared/icon-comments.svg"
                         alt="comment bubble"
                       />
                       <p>{item.comments.length}</p>
-                    </div>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -369,13 +369,13 @@ export default function RoadmapPage({
                       />
                       {item.upvotes}
                     </button>
-                    <div className="commentsWrapper">
+                    <button className="commentsWrapper" onClick={() => handleOpenFeedbackPage(item._id)}>
                       <img
                         src="/shared/icon-comments.svg"
                         alt="comment bubble"
                       />
                       <p>{item.comments.length}</p>
-                    </div>
+                    </button>
                   </div>
                 </div>
               </div>

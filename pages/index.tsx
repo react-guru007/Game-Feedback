@@ -34,6 +34,8 @@ export default function Home({ data }: HomeProps) {
 
   const [openRoadmapPage, setOpenRoadmapPage] = useState(false)
 
+  const [openMobileMenu, setOpenMobileMenu] = useState(false)
+
   const [pageId, setPageId] = useState('')
 
   const [isVoting, setIsVoting] = useState(false)
@@ -101,21 +103,50 @@ export default function Home({ data }: HomeProps) {
         !openRoadmapPage && (
           <main className={`main`}>
             <section>
-              <Banner />
-              <Tags
-                tag={tag}
-                setTag={setTag}
-                suggestionsData={suggestionsData}
-                setSuggestionsData={setSuggestionData}
-                tagData={tagData}
-                setTagData={setTagData}
+              <Banner
+                openMobileMenu={openMobileMenu}
+                setOpenMobileMenu={setOpenMobileMenu}
               />
-              <RoadmapDashboard
-                openRoadmapPage={openRoadmapPage}
-                setOpenRoadmapPage={setOpenRoadmapPage}
-                suggestionsData={suggestionsData}
-                setSuggestionsData={setSuggestionData}
-              />
+
+              <div className="mobileMenuItems">
+                <Tags
+                  tag={tag}
+                  setTag={setTag}
+                  suggestionsData={suggestionsData}
+                  setSuggestionsData={setSuggestionData}
+                  tagData={tagData}
+                  setTagData={setTagData}
+                />
+                <RoadmapDashboard
+                  openRoadmapPage={openRoadmapPage}
+                  setOpenRoadmapPage={setOpenRoadmapPage}
+                  suggestionsData={suggestionsData}
+                  setSuggestionsData={setSuggestionData}
+                />
+              </div>
+
+              {openMobileMenu && (
+                <div className="mobileMenuOverlay">
+                <div className="transparent"></div>
+                <div className="menu">
+                  <Tags
+                    tag={tag}
+                    setTag={setTag}
+                    suggestionsData={suggestionsData}
+                    setSuggestionsData={setSuggestionData}
+                    tagData={tagData}
+                    setTagData={setTagData}
+                  />
+                  <RoadmapDashboard
+                    openRoadmapPage={openRoadmapPage}
+                    setOpenRoadmapPage={setOpenRoadmapPage}
+                    suggestionsData={suggestionsData}
+                    setSuggestionsData={setSuggestionData}
+                  />
+                </div>
+              </div>
+              )}
+              
             </section>
 
             <Suggestions

@@ -29,6 +29,10 @@ export default function EditFeedback({
 
   const [isOpen, setIsOpen] = useState(false)
 
+  const [isEmpty, setIsEmpty] = useState(true)
+
+  const [textError, setTextError] = useState(false)
+
   const [statusIsOpen, setStatusIsOpen] = useState(false)
 
   const [dropValue, setDropValue] = useState('')
@@ -74,6 +78,13 @@ export default function EditFeedback({
   const handleDescriptionChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
+    if (e.target.value === '') {
+      setIsEmpty(true)
+    } else {
+      setIsEmpty(false)
+      setTextError(false)
+    }
+
     let copyObj = newFeedback
     copyObj.description = e.target.value
     setNewFeedback(copyObj)
@@ -82,29 +93,33 @@ export default function EditFeedback({
   const editFeedback = async (feedback: any) => {
     const editId = currentPost._id
 
-    try {
-      const response = await fetch('http://localhost:3000/api/feedback', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          feedback: newFeedback,
-          editId: currentPost._id,
-          changeType: 'Edit',
-        }),
-      })
+    if (isEmpty) {
+      setTextError(true)
+    } else {
+      try {
+        const response = await fetch('http://localhost:3000/api/feedback', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            feedback: newFeedback,
+            editId: currentPost._id,
+            changeType: 'Edit',
+          }),
+        })
 
-      if (response.ok) {
-        setSuggestionsData((suggestionData: any) =>
-          suggestionData.map((item: any) =>
-            item._id === feedback._id ? feedback : item
+        if (response.ok) {
+          setSuggestionsData((suggestionData: any) =>
+            suggestionData.map((item: any) =>
+              item._id === feedback._id ? feedback : item
+            )
           )
-        )
-        setOpenEditFeedbackPage(false)
+          setOpenEditFeedbackPage(false)
+        }
+      } catch (error) {
+        console.error('Error adding feedback:', error)
       }
-    } catch (error) {
-      console.error('Error adding feedback:', error)
     }
   }
 
@@ -146,7 +161,6 @@ export default function EditFeedback({
     setChangeType('Delete')
   }
 
-  console.log(changeType)
   return (
     <div className="newFeedbackContainer editFeedbackContainer">
       <div>
@@ -266,9 +280,10 @@ export default function EditFeedback({
             etc.
           </p>
           <textarea
-            className="feedbackDetail"
+            className={`feedbackDetail ${textError && 'empty'}`}
             onChange={handleDescriptionChange}
           ></textarea>
+          {textError && <p className="errorMessage">Cant be Empty</p>}
         </div>
 
         <div className="editButtonWrapper">

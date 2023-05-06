@@ -157,8 +157,14 @@ export default function Suggestions({
     <div className="suggestionsContainer">
       {/* header bar */}
       <div className="suggestionsBar">
-        <img src="/suggestions/icon-suggestions.svg" />
+
+        <div className='suggestionsBarText'>
+          <img src="/suggestions/icon-suggestions.svg" />
         <p>6 Suggestions</p>
+        </div>
+        
+
+
         <div className="dropdownContainer">
           <label>Sort by :</label>
           <button onClick={toggleDropdown} className="dropdownButton">

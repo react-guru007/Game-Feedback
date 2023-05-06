@@ -13,11 +13,11 @@ export default function NewFeedback({
   openNewFeedback,
   setOpenNewFeedback,
   suggestionsData,
-  setSuggestionsData
+  setSuggestionsData,
 }: NewFeedbackProps) {
-const { data: session } = useSession()
+  const { data: session } = useSession()
 
-const router = useRouter()
+  const router = useRouter()
 
   const changeType = 'Add'
 
@@ -30,7 +30,6 @@ const router = useRouter()
   const [dropValue, setDropValue] = useState('')
 
   const [newFeedback, setNewFeedback] = useState({
-    
     title: '',
     category: '',
     upvotes: 0,
@@ -38,7 +37,7 @@ const router = useRouter()
     description: '',
     name: session?.user?.name,
     comments: [],
-    upvotedBy: []
+    upvotedBy: [],
   })
 
   const toggleDropdown = () => {
@@ -57,10 +56,11 @@ const router = useRouter()
     let copyObj = newFeedback
     copyObj.title = e.target.value
     setNewFeedback(copyObj)
-    
   }
 
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleDescriptionChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     if (e.target.value === '') {
       setIsEmpty(true)
     } else {
@@ -74,36 +74,28 @@ const router = useRouter()
   }
 
   const addFeedback = async (feedback: any) => {
-
     if (isEmpty) {
-      
       setTextError(true)
     } else {
-
       try {
-    const response = await fetch('http://localhost:3000/api/feedback', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({feedback, changeType})
-    })
+        const response = await fetch('http://localhost:3000/api/feedback', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ feedback, changeType }),
+        })
 
-    if (response.ok) {
-      setSuggestionsData([...suggestionsData, newFeedback])
-      setOpenNewFeedback(false)
-      router.push('/')
+        if (response.ok) {
+          setSuggestionsData([...suggestionsData, newFeedback])
+          setOpenNewFeedback(false)
+          router.push('/')
+        }
+      } catch (error) {
+        console.error('Error adding feedback:', error)
+      }
     }
-
-   } catch (error) {
-    console.error('Error adding feedback:', error);
-   }
-    }
-
-   
-    
   }
-
 
   return (
     <div className="newFeedbackContainer">
@@ -177,10 +169,11 @@ const router = useRouter()
             Include any specific comments on what should be improved, added,
             etc.
           </p>
-          <textarea className={`feedbackDetail ${textError && 'empty'}`} onChange={handleDescriptionChange}></textarea>
-          {textError && (
-            <p className='errorMessage'>Cant be Empty</p>
-          )}
+          <textarea
+            className={`feedbackDetail ${textError && 'empty'}`}
+            onChange={handleDescriptionChange}
+          ></textarea>
+          {textError && <p className="errorMessage">Cant be Empty</p>}
         </div>
 
         <div className="buttonWrapper">
