@@ -26,13 +26,15 @@ export default function RoadmapPage({
   openFeedbackPage,
   setOpenFeedbackPage,
   openNewFeedback,
-  setOpenNewFeedback
+  setOpenNewFeedback,
 }: RoadmapPageProps) {
   const user = session?.data?.user?.name
 
   const [hasUserUpvoted, setHasUserUpvoted] = useState(false)
 
   const [strokeColors, setStrokeColors] = useState<Record<string, string>>({})
+
+  const [mobileColumn, setMobileColumn] = useState(1)
 
   const handleOpenFeedbackPage = (id: string) => {
     setPageId(id)
@@ -125,9 +127,34 @@ export default function RoadmapPage({
 
       {/* roadmap columns */}
 
-      {/* planned column */}
-      <div className="roadmapLayoutContainer">
-        <div className="layoutColumn">
+      {/* mobile selector */}
+      <div className="mobileSelectorWrapper">
+        <button onClick={() => setMobileColumn(1)} className={`${mobileColumn === 1 && 'selectedItem'}`}>
+          Planned{' '}
+          {`(${
+            suggestionsData.filter((item: any) => item.status === 'Planned')
+              .length
+          })`}
+        </button>
+        <button onClick={() => setMobileColumn(2)} className={`${mobileColumn === 2 && 'selectedItem'}`}>
+          In-Progress{' '}
+          {`(${
+            suggestionsData.filter((item: any) => item.status === 'In-Progress')
+              .length
+          })`}
+        </button>
+        <button onClick={() => setMobileColumn(3)} className={`${mobileColumn === 3 && 'selectedItem'}`}>
+          Live{' '}
+          {`(${
+            suggestionsData.filter((item: any) => item.status === 'Live')
+              .length
+          })`}
+        </button>
+      </div>
+
+      <div className={`roadmapLayoutContainer `}>
+        {/* planned column */}
+        <div className={`layoutColumn ${mobileColumn !== 1 && 'hideColumn'}`}>
           <div className="columnHeader">
             <h2>
               Planned
@@ -214,7 +241,7 @@ export default function RoadmapPage({
         </div>
 
         {/* In-Progress column */}
-        <div className="layoutColumn">
+        <div className={`layoutColumn ${mobileColumn !== 2 && 'hideColumn'}`}>
           <div className="columnHeader">
             <h2>
               In-Progress
@@ -241,7 +268,7 @@ export default function RoadmapPage({
                   <p>{item.description}</p>
                   <div className="itemCategory">{item.category}</div>
                   <div className="itemFooter">
-                  <button
+                    <button
                       className={`${
                         item?.upvotedBy?.some(
                           (item2: any) => item2 === item.name
@@ -285,7 +312,10 @@ export default function RoadmapPage({
                       />
                       {item.upvotes}
                     </button>
-                    <button className="commentsWrapper" onClick={() => handleOpenFeedbackPage(item._id)}>
+                    <button
+                      className="commentsWrapper"
+                      onClick={() => handleOpenFeedbackPage(item._id)}
+                    >
                       <img
                         src="/shared/icon-comments.svg"
                         alt="comment bubble"
@@ -299,7 +329,7 @@ export default function RoadmapPage({
         </div>
 
         {/* Live column */}
-        <div className="layoutColumn">
+        <div className={`layoutColumn ${mobileColumn !== 3 && 'hideColumn'}`}>
           <div className="columnHeader">
             <h2>
               Live
@@ -325,7 +355,7 @@ export default function RoadmapPage({
                   <p>{item.description}</p>
                   <div className="itemCategory">{item.category}</div>
                   <div className="itemFooter">
-                  <button
+                    <button
                       className={`${
                         item?.upvotedBy?.some(
                           (item2: any) => item2 === item.name
@@ -369,7 +399,10 @@ export default function RoadmapPage({
                       />
                       {item.upvotes}
                     </button>
-                    <button className="commentsWrapper" onClick={() => handleOpenFeedbackPage(item._id)}>
+                    <button
+                      className="commentsWrapper"
+                      onClick={() => handleOpenFeedbackPage(item._id)}
+                    >
                       <img
                         src="/shared/icon-comments.svg"
                         alt="comment bubble"

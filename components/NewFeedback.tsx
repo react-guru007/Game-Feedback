@@ -177,8 +177,8 @@ export default function NewFeedback({
         </div>
 
         <div className="buttonWrapper">
-          <button onClick={() => setOpenNewFeedback(false)}>Cancel</button>
-          <button onClick={() => addFeedback(newFeedback)}>Add Feedback</button>
+          <button onClick={() => setOpenNewFeedback(false)} className='cancelButton'>Cancel</button>
+          <button onClick={() => addFeedback(newFeedback)} className='addButton'>Add Feedback</button>
         </div>
       </div>
     </div>

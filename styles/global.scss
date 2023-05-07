@@ -74,8 +74,6 @@ a {
     padding-right: 16px;
     border-radius: 10px;
 
-    
-
     .suggestionsBarText {
       display: flex;
       gap: 10px;
@@ -1013,6 +1011,10 @@ a {
   width: 100%;
   padding: 40px;
 
+  .mobileSelectorWrapper {
+    display: none;
+  }
+
   .roadmapHeaderContainer {
     display: flex;
     height: 113px;
@@ -1256,7 +1258,6 @@ a {
 
 //mobile
 @media (max-width: 800px) {
-
   .main {
     gap: 0px;
     padding: 0px;
@@ -1264,7 +1265,6 @@ a {
 
   section {
     flex-direction: column;
-    
 
     .mobileMenuItems {
       display: none;
@@ -1274,7 +1274,7 @@ a {
       position: absolute;
       width: 100%;
       height: 100%;
-      
+
       top: 84px;
       display: flex;
       z-index: 10;
@@ -1282,7 +1282,6 @@ a {
       .transparent {
         background-color: rgba(0, 0, 0, 0.5);
         flex-basis: 33%;
-        
       }
 
       .menu {
@@ -1298,7 +1297,6 @@ a {
 
         .tagsContainer {
           height: 178px;
-          
         }
 
         .roadmapContainer {
@@ -1317,7 +1315,6 @@ a {
       img {
         border-radius: 0px;
       }
-      
 
       .mobileHamburgerMenu {
         display: block;
@@ -1336,17 +1333,105 @@ a {
         display: flex;
         position: relative;
         flex-direction: column;
-        
       }
     }
   }
 
   .suggestionsContainer {
-     
     .suggestionsBar {
       border-radius: 0px;
 
       .suggestionsBarText {
+        display: none;
+      }
+    }
+  }
+
+  .feedbackPageContainer {
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+
+    .addCommentContainer {
+      width: 100%;
+    }
+  }
+
+  .newFeedbackContainer {
+    padding-left: 20px;
+    padding-right: 20px;
+
+    .buttonWrapper {
+      flex-direction: column-reverse;
+      width: 100%;
+
+      button {
+        width: 100% !important;
+      }
+    }
+  }
+
+  .editFeedbackContainer {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+
+    height: 100%;
+
+    .editButtonWrapper {
+      flex-direction: column-reverse;
+      width: 100%;
+      padding-bottom: 20px;
+
+      button {
+        width: 100% !important;
+      }
+    }
+  }
+
+  .roadmapPageContainer {
+    padding: 0px;
+
+    .roadmapHeaderContainer {
+      border-radius: 0px;
+    }
+
+    .mobileSelectorWrapper {
+      display: flex;
+      width: 100%;
+      border-bottom: 1px solid $grey;
+
+      button {
+        flex-basis: 33%;
+        text-align: center;
+        padding: 20px;
+        font-weight: 700;
+        color: $grey;
+        background-color: transparent;
+        border: none;
+        font-size: 1rem;
+
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+
+      .selectedItem {
+        border-bottom: 5px solid $purple;
+        padding-bottom: 15px;
+        color: $darkpurple2;
+      }
+    }
+
+    .roadmapLayoutContainer {
+
+      .layoutColumn {
+        width: 100%;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .hideColumn {
         display: none;
       }
     }
