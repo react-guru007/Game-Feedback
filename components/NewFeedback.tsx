@@ -33,7 +33,7 @@ export default function NewFeedback({
   const [newFeedback, setNewFeedback] = useState<any>({
     title: '',
     category: '',
-    upvotes: 0,
+    upvotes: 1,
     status: '',
     description: '',
     name: session?.user?.name,

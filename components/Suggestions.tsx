@@ -34,7 +34,7 @@ export default function Suggestions({
   const [dropValue, setDropValue] = useState('Most Upvotes')
 
   const [hasUserUpvoted, setHasUserUpvoted] = useState<boolean | undefined>(
-    false
+    true
   )
 
   const toggleDropdown = () => {
