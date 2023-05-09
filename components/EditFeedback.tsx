@@ -170,7 +170,7 @@ export default function EditFeedback({
           className="editFeedbackIcon"
         />
 
-        <h1>Editing '{currentPost.title}'</h1>
+        <h1>Editing '{currentPost?.title}'</h1>
         <div className="formItemWrapper">
           <h2>Feedback Title</h2>
           <p>Add a short, descriptive headline</p>
