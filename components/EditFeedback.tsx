@@ -19,7 +19,7 @@ export default function EditFeedback({
   suggestionsData,
   setSuggestionsData,
 }: EditFeedbackProps) {
-  const currentPost: any = data.find((item: any) => item._id === pageId)
+  const currentPost: any = suggestionsData.find((item: any) => item._id === pageId)
 
   const router = useRouter()
 
