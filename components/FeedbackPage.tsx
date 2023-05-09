@@ -20,7 +20,7 @@ export default function FeedbackPage({
 
   const [activeReplyBox, setActiveReplyBox] = useState(-1)
 
-  const [dataType, setDataType] = useState('')
+  const [dataType, setDataType] = useState('Comment')
 
   const [textLength, setTextLength] = useState(255)
 
@@ -67,7 +67,7 @@ export default function FeedbackPage({
 
   const addComment = async (newComment: any) => {
     try {
-      const response = await fetch('https://game-feedback.netlify.app/api/feedback', {
+      const response = await fetch('https://game-feedback.netlify.app/api/comment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ export default function FeedbackPage({
     const commentId = currentId
 
     try {
-      const response = await fetch('https://game-feedback.netlify.app/api/feedback', {
+      const response = await fetch('https://game-feedback.netlify.app/api/comment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
