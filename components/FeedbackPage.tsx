@@ -67,7 +67,7 @@ export default function FeedbackPage({
 
   const addComment = async (newComment: any) => {
     try {
-      const response = await fetch('http://localhost:3000/api/comment', {
+      const response = await fetch('https://game-feedback.netlify.app/api/feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ export default function FeedbackPage({
     const commentId = currentId
 
     try {
-      const response = await fetch('http://localhost:3000/api/comment', {
+      const response = await fetch('https://game-feedback.netlify.app/api/feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
