@@ -56,6 +56,8 @@ export default function Home({ data }: HomeProps) {
           setOpenFeedbackPage={setOpenFeedbackPage}
           openEditFeedbackPage={openEditFeedbackPage}
           setOpenEditFeedbackPage={setOpenEditFeedbackPage}
+          suggestionsData={suggestionsData}
+          setSuggestionsData={setSuggestionData}
           pageId={pageId}
           data={data}
         />

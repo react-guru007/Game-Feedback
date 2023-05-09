@@ -6,6 +6,8 @@ interface FeedbackPageProps {
   setOpenFeedbackPage: React.Dispatch<React.SetStateAction<boolean>>
   openEditFeedbackPage: boolean
   setOpenEditFeedbackPage: React.Dispatch<React.SetStateAction<boolean>>
+  suggestionsData: Post[]
+  setSuggestionsData: React.Dispatch<React.SetStateAction<Post[]>>
   pageId: string
   data: Post[]
 }
@@ -13,6 +15,8 @@ interface FeedbackPageProps {
 export default function FeedbackPage({
   setOpenFeedbackPage,
   setOpenEditFeedbackPage,
+  suggestionsData,
+  setSuggestionsData,
   pageId,
   data,
 }: FeedbackPageProps) {
@@ -24,11 +28,13 @@ export default function FeedbackPage({
 
   const [textLength, setTextLength] = useState(255)
 
-  const currentPost: any = data.find((item: any) => item._id === pageId)
+  const currentPost: any = suggestionsData.find(
+    (item: any) => item._id === pageId
+  )
 
   const authUser = session?.user?.name === currentPost?.name
 
-  const [postComment, setPostComment] = useState({
+  const [postComment, setPostComment] = useState<any>({
     id: '',
     content: '',
     user: {
@@ -67,13 +73,24 @@ export default function FeedbackPage({
 
   const addComment = async (newComment: any) => {
     try {
-      const response = await fetch('https://game-feedback.netlify.app/api/comment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ newComment, filterId, dataType }),
-      })
+      const response = await fetch(
+        'https://game-feedback.netlify.app/api/comment',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ newComment, filterId, dataType }),
+        }
+      )
+
+      if (response.ok) {
+        setSuggestionsData((suggestionsData: any) =>
+          suggestionsData.map(
+            (item: any) => item._id === pageId && item.comments.push(newComment)
+          )
+        )
+      }
     } catch (error) {
       console.error('Error adding comment:', error)
     }
@@ -83,15 +100,28 @@ export default function FeedbackPage({
     const commentId = currentId
 
     try {
-      const response = await fetch('https://game-feedback.netlify.app/api/comment', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ newReply, filterId, dataType, commentId }),
-      })
+      const response = await fetch(
+        'https://game-feedback.netlify.app/api/comment',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ newReply, filterId, dataType, commentId }),
+        }
+      )
 
       if (response.ok) {
+        setSuggestionsData((suggestionsData: any) =>
+          suggestionsData.map(
+            (item: any) =>
+              item._id === pageId &&
+              item.map(
+                (item2: any) =>
+                  item2.id === currentId && item2.replies.push(newReply)
+              )
+          )
+        )
         setActiveReplyBox(-1)
       }
     } catch (error) {
@@ -116,7 +146,6 @@ export default function FeedbackPage({
 
   return (
     <div className="feedbackPageContainer">
-
       {/* header buttons */}
       <div className="navContainer">
         <div className="backWrapper">
@@ -139,7 +168,7 @@ export default function FeedbackPage({
           <p>{currentPost.upvotes}</p>
         </div>
         <div className="suggestionDescriptionWrapper">
-          <h2 className="truncate">{currentPost.title}</h2>
+          <h2 className="">{currentPost.title}</h2>
           <p>{currentPost.description}</p>
           <div>{currentPost.category}</div>
         </div>
