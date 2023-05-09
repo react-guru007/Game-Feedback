@@ -114,7 +114,10 @@ export default function Suggestions({
           throw new Error(`HTTP error: ${response.status}`)
         }
 
-        const updatedData = suggestionsData.map((item: any) => {
+        if (response.ok) {
+
+
+          const updatedData = suggestionsData.map((item: any) => {
           if (item._id === currentId) {
             const userExists = item.upvotedBy.includes(user)
             const updatedUpvotedBy = userExists
@@ -131,6 +134,8 @@ export default function Suggestions({
         })
 
         setSuggestionsData(updatedData)
+        }
+        
       })
       .catch((error) => {
         console.error('Error adding comment:', error)

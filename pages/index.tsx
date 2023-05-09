@@ -36,6 +36,9 @@ export default function Home({ data }: HomeProps) {
 
   const session = useSession()
 
+  console.log(data)
+  console.log(suggestionsData)
+
   return (
     <div className="container">
       <Head>
