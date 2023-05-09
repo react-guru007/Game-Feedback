@@ -38,7 +38,7 @@ export default function NewFeedback({
     description: '',
     name: session?.user?.name,
     comments: [],
-    upvotedBy: [],
+    upvotedBy: [session?.user?.name],
   })
 
   const toggleDropdown = () => {
