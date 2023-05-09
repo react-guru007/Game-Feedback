@@ -243,8 +243,8 @@ export default function Suggestions({
             <p>{item.upvotes}</p>
           </button>
           <div className="suggestionDescriptionWrapper">
-            <h2>{item.title}</h2>
-            <p>{item.description}</p>
+            <h2 >{item.title}</h2>
+            <p className='truncate'>{item.description}</p>
             <div>{item.category}</div>
           </div>
           <div

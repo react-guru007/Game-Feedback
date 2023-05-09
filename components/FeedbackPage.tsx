@@ -32,7 +32,7 @@ export default function FeedbackPage({
     id: '',
     content: '',
     user: {
-      image: '/user-images/image-zena.jpg',
+      image: session ? session?.user?.image : '/user-images/image-guest.webp',
       name: session ? session?.user?.name : 'Guest',
     },
     replies: [],
@@ -42,7 +42,7 @@ export default function FeedbackPage({
     content: '',
     replyingTo: '',
     user: {
-      image: '/user-images/image-zena.jpg',
+      image: session ? session?.user?.image : '/user-images/image-guest.webp',
       name: session ? session?.user?.name : 'Guest',
     },
   })
@@ -116,6 +116,8 @@ export default function FeedbackPage({
 
   return (
     <div className="feedbackPageContainer">
+
+      {/* header buttons */}
       <div className="navContainer">
         <div className="backWrapper">
           <img src="/shared/icon-arrow-left.svg" />
@@ -130,6 +132,7 @@ export default function FeedbackPage({
         </button>
       </div>
 
+      {/* post details */}
       <div className="suggestionItem" key={currentPost._id}>
         <div className="upvotes">
           <img src="/shared/icon-arrow-up.svg" />
@@ -146,6 +149,7 @@ export default function FeedbackPage({
         </div>
       </div>
 
+      {/* comments */}
       <div className="commentsContainer">
         <h2>{currentPost.comments.length} Comments</h2>
 

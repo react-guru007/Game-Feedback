@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useSession, signIn, signOut } from 'next-auth/react'
 
@@ -15,6 +15,22 @@ export default function Banner({
 
   const userName = session?.user?.name
 
+  const [windowWidth, setWindowWidth] = useState(0)
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth)
+
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   return (
     <div className="headerContainer">
       <h1>
@@ -28,9 +44,14 @@ export default function Banner({
         </div>
       </h1>
       <Image
-        src={'/suggestions/desktop/background-header.png'}
+        src={
+          windowWidth > 800
+            ? '/suggestions/desktop/background-header.png'
+            : '/suggestions/mobile/background-header.png'
+        }
         fill
         alt="background header"
+        priority={true}
       />
       <button
         className="mobileHamburgerMenu"

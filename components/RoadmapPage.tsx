@@ -178,7 +178,7 @@ export default function RoadmapPage({
                   </div>
 
                   <h3>{item.title}</h3>
-                  <p>{item.description}</p>
+                  <p className='truncate'>{item.description}</p>
                   <div className="itemCategory">{item.category}</div>
                   <div className="itemFooter">
                     <button
