@@ -1,19 +1,17 @@
 import React, { useState } from 'react'
-import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { Post } from '../types/data'
 
 interface EditFeedbackProps {
-  openEditFeedbackPage: boolean
-  setOpenEditFeedbackPage: any
+  setOpenEditFeedbackPage: React.Dispatch<React.SetStateAction<boolean>>
   pageId: string
-  setPageId: any
-  data: any
-  suggestionsData: any
-  setSuggestionsData: any
+  setPageId: React.Dispatch<React.SetStateAction<string>>
+  data: Post[]
+  suggestionsData: Post[]
+  setSuggestionsData: React.Dispatch<React.SetStateAction<Post[]>>
 }
 
 export default function EditFeedback({
-  openEditFeedbackPage,
   setOpenEditFeedbackPage,
   pageId,
   setPageId,
@@ -21,9 +19,7 @@ export default function EditFeedback({
   suggestionsData,
   setSuggestionsData,
 }: EditFeedbackProps) {
-  const currentPost = data.find((item: any) => item._id === pageId)
-
-  const { data: session } = useSession()
+  const currentPost: any = data.find((item: any) => item._id === pageId)
 
   const router = useRouter()
 
@@ -39,7 +35,7 @@ export default function EditFeedback({
 
   const [statusDropValue, setStatusDropValue] = useState('')
 
-  const [newFeedback, setNewFeedback] = useState(currentPost)
+  const [newFeedback, setNewFeedback] = useState<any | undefined>(currentPost)
 
   const [changeType, setChangeType] = useState('Edit')
 
@@ -168,6 +164,12 @@ export default function EditFeedback({
         <button onClick={() => setOpenEditFeedbackPage(false)}>Go Back</button>
       </div>
       <div className="formContainer">
+        <img
+          src="/shared/icon-edit-feedback.svg"
+          alt="edit feedback icon"
+          className="editFeedbackIcon"
+        />
+
         <h1>Editing '{currentPost.title}'</h1>
         <div className="formItemWrapper">
           <h2>Feedback Title</h2>

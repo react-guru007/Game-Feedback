@@ -1,46 +1,28 @@
-import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import React, { useState } from 'react'
 import IconArrowUp from './IconArrowUp'
+import { Post } from '../types/data'
 
 interface SuggestionsProps {
-  openNewFeedback: boolean
-  setOpenNewFeedback: any
-  openFeedbackPage: boolean
-  setOpenFeedbackPage: any
-  pageId: string
-  setPageId: any
-  data: any
+  setOpenNewFeedback: React.Dispatch<React.SetStateAction<boolean>>
+  setOpenFeedbackPage: React.Dispatch<React.SetStateAction<boolean>>
+  setPageId: React.Dispatch<React.SetStateAction<string>>
   session: any
-  isVoting: boolean
-  setIsVoting: any
-  suggestionsData: any
-  setSuggestionsData: any
+  suggestionsData: Post[]
+  setSuggestionsData: React.Dispatch<React.SetStateAction<Post[]>>
   tag: string
-  setTag: any
-  tagData: any
-  setTagData: any
+  tagData: Post[]
 }
 
 export default function Suggestions({
-  openNewFeedback,
   setOpenNewFeedback,
-  openFeedbackPage,
   setOpenFeedbackPage,
-  pageId,
   setPageId,
-  data,
   session,
-  isVoting,
-  setIsVoting,
   suggestionsData,
   setSuggestionsData,
   tag,
-  setTag,
   tagData,
-  setTagData,
 }: SuggestionsProps) {
-  const router = useRouter()
-
   const [strokeColors, setStrokeColors] = useState<Record<string, string>>({})
 
   const user = session?.data?.user?.name
@@ -51,7 +33,9 @@ export default function Suggestions({
 
   const [dropValue, setDropValue] = useState('Most Upvotes')
 
-  const [hasUserUpvoted, setHasUserUpvoted] = useState(false)
+  const [hasUserUpvoted, setHasUserUpvoted] = useState<boolean | undefined>(
+    false
+  )
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen)
@@ -100,7 +84,7 @@ export default function Suggestions({
       (item: any) => item._id === currentId
     )
 
-    const currentUpvotes = currentPost.upvotes
+    const currentUpvotes = currentPost?.upvotes
 
     setHasUserUpvoted(
       currentPost?.upvotedBy?.some((item: any) => item === user)
@@ -157,13 +141,10 @@ export default function Suggestions({
     <div className="suggestionsContainer">
       {/* header bar */}
       <div className="suggestionsBar">
-
-        <div className='suggestionsBarText'>
+        <div className="suggestionsBarText">
           <img src="/suggestions/icon-suggestions.svg" />
-        <p>6 Suggestions</p>
+          <p>6 Suggestions</p>
         </div>
-        
-
 
         <div className="dropdownContainer">
           <label>Sort by :</label>

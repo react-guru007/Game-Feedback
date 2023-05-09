@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { Post } from '../types/data'
 
 interface NewFeedbackProps {
   openNewFeedback: boolean
-  setOpenNewFeedback: any
-  suggestionsData: any
-  setSuggestionsData: any
+  setOpenNewFeedback: React.Dispatch<React.SetStateAction<boolean>>
+  suggestionsData: Post[]
+  setSuggestionsData: React.Dispatch<React.SetStateAction<Post[]>>
 }
 
 export default function NewFeedback({
@@ -29,7 +30,7 @@ export default function NewFeedback({
 
   const [dropValue, setDropValue] = useState('')
 
-  const [newFeedback, setNewFeedback] = useState({
+  const [newFeedback, setNewFeedback] = useState<any>({
     title: '',
     category: '',
     upvotes: 0,
@@ -103,7 +104,14 @@ export default function NewFeedback({
         <img src="/shared/icon-arrow-left.svg" />
         <button onClick={() => setOpenNewFeedback(false)}>Go Back</button>
       </div>
+
       <div className="formContainer">
+        <img
+          src="/shared/icon-new-feedback.svg"
+          alt=""
+          className="newFeedbackIcon"
+        />
+
         <h1>Create New Feedback</h1>
         <div className="formItemWrapper">
           <h2>Feedback Title</h2>
@@ -177,8 +185,18 @@ export default function NewFeedback({
         </div>
 
         <div className="buttonWrapper">
-          <button onClick={() => setOpenNewFeedback(false)} className='cancelButton'>Cancel</button>
-          <button onClick={() => addFeedback(newFeedback)} className='addButton'>Add Feedback</button>
+          <button
+            onClick={() => setOpenNewFeedback(false)}
+            className="cancelButton"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => addFeedback(newFeedback)}
+            className="addButton"
+          >
+            Add Feedback
+          </button>
         </div>
       </div>
     </div>

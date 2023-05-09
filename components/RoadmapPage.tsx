@@ -1,31 +1,24 @@
 import React, { useState } from 'react'
 import IconArrowUp from './IconArrowUp'
+import { Post } from '../types/data'
 
 interface RoadmapPageProps {
-  openRoadmapPage: boolean
   setOpenRoadmapPage: React.Dispatch<React.SetStateAction<boolean>>
-  suggestionsData: any
-  setSuggestionsData: any
+  suggestionsData: Post[]
+  setSuggestionsData: React.Dispatch<React.SetStateAction<Post[]>>
   session: any
-  pageId: string
-  setPageId: any
-  openFeedbackPage: boolean
-  setOpenFeedbackPage: any
-  openNewFeedback: any
-  setOpenNewFeedback: any
+  setPageId: React.Dispatch<React.SetStateAction<string>>
+  setOpenFeedbackPage: React.Dispatch<React.SetStateAction<boolean>>
+  setOpenNewFeedback: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function RoadmapPage({
-  openRoadmapPage,
   setOpenRoadmapPage,
   suggestionsData,
   setSuggestionsData,
   session,
-  pageId,
   setPageId,
-  openFeedbackPage,
   setOpenFeedbackPage,
-  openNewFeedback,
   setOpenNewFeedback,
 }: RoadmapPageProps) {
   const user = session?.data?.user?.name
@@ -48,7 +41,7 @@ export default function RoadmapPage({
   }
 
   const upvoteFeedback = async (currentId: any) => {
-    const currentPost = suggestionsData.find(
+    const currentPost: any = suggestionsData.find(
       (item: any) => item._id === currentId
     )
 
@@ -129,25 +122,33 @@ export default function RoadmapPage({
 
       {/* mobile selector */}
       <div className="mobileSelectorWrapper">
-        <button onClick={() => setMobileColumn(1)} className={`${mobileColumn === 1 && 'selectedItem'}`}>
+        <button
+          onClick={() => setMobileColumn(1)}
+          className={`${mobileColumn === 1 && 'selectedItem'}`}
+        >
           Planned{' '}
           {`(${
             suggestionsData.filter((item: any) => item.status === 'Planned')
               .length
           })`}
         </button>
-        <button onClick={() => setMobileColumn(2)} className={`${mobileColumn === 2 && 'selectedItem'}`}>
+        <button
+          onClick={() => setMobileColumn(2)}
+          className={`${mobileColumn === 2 && 'selectedItem'}`}
+        >
           In-Progress{' '}
           {`(${
             suggestionsData.filter((item: any) => item.status === 'In-Progress')
               .length
           })`}
         </button>
-        <button onClick={() => setMobileColumn(3)} className={`${mobileColumn === 3 && 'selectedItem'}`}>
+        <button
+          onClick={() => setMobileColumn(3)}
+          className={`${mobileColumn === 3 && 'selectedItem'}`}
+        >
           Live{' '}
           {`(${
-            suggestionsData.filter((item: any) => item.status === 'Live')
-              .length
+            suggestionsData.filter((item: any) => item.status === 'Live').length
           })`}
         </button>
       </div>

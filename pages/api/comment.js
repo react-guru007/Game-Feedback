@@ -2,13 +2,19 @@ import clientPromise from '../../lib/mongodb'
 import { ObjectId } from 'mongodb'
 
 export default async (req, res) => {
-  console.log('Incoming request:', req.method, req.url, req.body, req.body.dataType)
+  console.log(
+    'Incoming request:',
+    req.method,
+    req.url,
+    req.body,
+    req.body.dataType
+  )
 
   try {
     const client = await clientPromise
     const db = client.db('game-feedback-db')
 
-    let result 
+    let result
 
     if (req.method === 'POST') {
       // add comment
@@ -30,11 +36,7 @@ export default async (req, res) => {
 
         const update = { $push: { comments: newComment } }
 
-        
-
         result = await db.collection('feedback').updateOne(filter, update)
-
-        
       }
       // reply comment
       if (req.body.dataType === 'Reply') {
@@ -45,13 +47,11 @@ export default async (req, res) => {
 
         const filter = { _id: objectId, 'comments.id': commentId }
 
-        const update = { $push: { "comments.$.replies": newReply } }
+        const update = { $push: { 'comments.$.replies': newReply } }
 
         result = await db.collection('feedback').updateOne(filter, update)
-
-        
       }
-      //delete 
+      //delete
 
       res.status(200).json({ message: 'Feedback added', result })
     } else {

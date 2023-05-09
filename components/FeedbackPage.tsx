@@ -1,22 +1,19 @@
 import React, { useState } from 'react'
 import { useSession } from 'next-auth/react'
+import { Post } from '../types/data'
 
 interface FeedbackPageProps {
-  openFeedbackPage: boolean
-  setOpenFeedbackPage: any
+  setOpenFeedbackPage: React.Dispatch<React.SetStateAction<boolean>>
   openEditFeedbackPage: boolean
-  setOpenEditFeedbackPage: any
+  setOpenEditFeedbackPage: React.Dispatch<React.SetStateAction<boolean>>
   pageId: string
-  setPageId: any
-  data: any
+  data: Post[]
 }
 
 export default function FeedbackPage({
-  openFeedbackPage,
   setOpenFeedbackPage,
   setOpenEditFeedbackPage,
   pageId,
-  setPageId,
   data,
 }: FeedbackPageProps) {
   const { data: session } = useSession()
@@ -25,7 +22,9 @@ export default function FeedbackPage({
 
   const [dataType, setDataType] = useState('')
 
-  const currentPost = data.find((item: any) => item._id === pageId)
+  const [textLength, setTextLength] = useState(255)
+
+  const currentPost: any = data.find((item: any) => item._id === pageId)
 
   const authUser = session?.user?.name === currentPost?.name
 
@@ -53,6 +52,8 @@ export default function FeedbackPage({
   const handleCommentChange = (e: any) => {
     let copyObj = postComment
     copyObj.content = e.target.value
+    setTextLength(255 - e.target.value.length)
+
     setPostComment(copyObj)
   }
 
@@ -65,7 +66,6 @@ export default function FeedbackPage({
   }
 
   const addComment = async (newComment: any) => {
-
     try {
       const response = await fetch('http://localhost:3000/api/comment', {
         method: 'POST',
@@ -114,8 +114,6 @@ export default function FeedbackPage({
     setOpenEditFeedbackPage(true)
   }
 
-
-  
   return (
     <div className="feedbackPageContainer">
       <div className="navContainer">
@@ -123,7 +121,13 @@ export default function FeedbackPage({
           <img src="/shared/icon-arrow-left.svg" />
           <button onClick={() => setOpenFeedbackPage(false)}>Go Back</button>
         </div>
-        <button className="editButton" onClick={handleEditButton} disabled={!authUser}>Edit Feedback</button>
+        <button
+          className="editButton"
+          onClick={handleEditButton}
+          disabled={!authUser}
+        >
+          Edit Feedback
+        </button>
       </div>
 
       <div className="suggestionItem" key={currentPost._id}>
@@ -132,7 +136,7 @@ export default function FeedbackPage({
           <p>{currentPost.upvotes}</p>
         </div>
         <div className="suggestionDescriptionWrapper">
-          <h2>{currentPost.title}</h2>
+          <h2 className="truncate">{currentPost.title}</h2>
           <p>{currentPost.description}</p>
           <div>{currentPost.category}</div>
         </div>
@@ -216,9 +220,9 @@ export default function FeedbackPage({
 
       <div className="addCommentContainer">
         <h2>Add Comment</h2>
-        <input onChange={handleCommentChange}></input>
+        <textarea onChange={handleCommentChange} maxLength={255}></textarea>
         <div className="postCommentWrapper">
-          <p>255 Characters Left</p>
+          <p>{textLength} Characters Left</p>
           <button onClick={() => addComment(postComment)}>Post Comment</button>
         </div>
       </div>
