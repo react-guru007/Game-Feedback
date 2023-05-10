@@ -51,6 +51,8 @@ export default function Home({ data }: HomeProps) {
     }
 
     fetchData()
+
+    console.log('useeffect')
   },[openFeedbackPage])
 
   return (
