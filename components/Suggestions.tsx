@@ -89,12 +89,13 @@ export default function Suggestions({
     setHasUserUpvoted(
       currentPost?.upvotedBy?.some((item: any) => item === user)
     )
-
+      console.log(currentPost)
+    console.log(`check after set ${hasUserUpvoted}`)
     const feedbackId = currentId
 
     const changeType = 'UPVOTE'
 
-    fetch('http://localhost:3000/api/feedback', {
+    fetch('https://game-feedback.netlify.app/api/feedback', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -124,9 +125,11 @@ export default function Suggestions({
               ? item.upvotedBy.filter((u: any) => u !== user)
               : [...item.upvotedBy, user]
 
+              console.log(hasUserUpvoted)
+
             return {
               ...item,
-              upvotes: !hasUserUpvoted ? item.upvotes - 1 : item.upvotes + 1,
+              upvotes: userExists ? item.upvotes - 1 : item.upvotes + 1,
               upvotedBy: updatedUpvotedBy,
             }
           }
