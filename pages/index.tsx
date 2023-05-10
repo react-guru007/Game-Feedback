@@ -41,7 +41,7 @@ export default function Home({ data }: HomeProps) {
 
   useEffect(() => {
     setSuggestionData(data)
-  },[])
+  },[openNewFeedback])
 
   return (
     <div className="container">
