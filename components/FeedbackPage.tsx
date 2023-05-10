@@ -53,7 +53,7 @@ export default function FeedbackPage({
     },
   })
 
-  const filterId = currentPost._id
+  const filterId = currentPost?._id
 
   const handleCommentChange = (e: any) => {
     let copyObj = postComment
