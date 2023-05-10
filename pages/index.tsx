@@ -39,6 +39,10 @@ export default function Home({ data }: HomeProps) {
   console.log(data)
   console.log(suggestionsData)
 
+  useEffect(() => {
+    setSuggestionData(data)
+  },[])
+
   return (
     <div className="container">
       <Head>
