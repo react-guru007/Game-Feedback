@@ -40,8 +40,18 @@ export default function Home({ data }: HomeProps) {
   console.log(suggestionsData)
 
   useEffect(() => {
-    setSuggestionData(data)
-  },[openNewFeedback])
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://game-feedback.netlify.app/api/feedback')
+        const data = await response.json()
+        setSuggestionData(data)
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      }
+    }
+
+    fetchData()
+  },[openFeedbackPage])
 
   return (
     <div className="container">
