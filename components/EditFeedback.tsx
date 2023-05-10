@@ -19,7 +19,7 @@ export default function EditFeedback({
   suggestionsData,
   setSuggestionsData,
 }: EditFeedbackProps) {
-  const currentPost: any = data.find((item: any) => item._id === pageId)
+  const currentPost: any = suggestionsData.find((item: any) => item._id === pageId)
 
   const router = useRouter()
 
@@ -159,6 +159,10 @@ export default function EditFeedback({
 
     setChangeType('Delete')
   }
+
+  console.log(`pageid ${pageId}`)
+
+  console.log(`currentpost ${currentPost}`)
 
   console.log(`log ${currentPost?._id}`)
 
