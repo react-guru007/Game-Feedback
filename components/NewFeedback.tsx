@@ -79,7 +79,7 @@ export default function NewFeedback({
       setTextError(true)
     } else {
       try {
-        const response = await fetch('https://game-feedback.netlify.app/api/feedback', {
+        const response = await fetch('http://localhost:3000/api/feedback', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -87,7 +87,14 @@ export default function NewFeedback({
           body: JSON.stringify({ feedback, changeType }),
         })
 
+        const data = await response.json()
+        
+
         if (response.ok) {
+          const feedbackUpdate = newFeedback
+          feedbackUpdate._id = data.newId
+          setNewFeedback(feedbackUpdate)
+
           setSuggestionsData([...suggestionsData, newFeedback])
           setOpenNewFeedback(false)
           router.push('/')
@@ -98,7 +105,7 @@ export default function NewFeedback({
     }
   }
 
-  
+
 
   return (
     <div className="newFeedbackContainer">

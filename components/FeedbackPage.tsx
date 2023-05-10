@@ -144,6 +144,8 @@ export default function FeedbackPage({
     setOpenEditFeedbackPage(true)
   }
 
+  console.log(currentPost)
+
   return (
     <div className="feedbackPageContainer">
       {/* header buttons */}

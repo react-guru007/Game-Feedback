@@ -55,7 +55,7 @@ export default function RoadmapPage({
 
     const changeType = 'UPVOTE'
 
-    fetch('https://game-feedback.netlify.app/api/feedback', {
+    fetch('http://localhost:3000/api/feedback', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -39,21 +39,21 @@ export default function Home({ data }: HomeProps) {
   console.log(data)
   console.log(suggestionsData)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('https://game-feedback.netlify.app/api/feedback')
-        const data = await response.json()
-        setSuggestionData(data)
-      } catch (error) {
-        console.error('Error fetching data:', error)
-      }
-    }
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch('http://localhost:3000/api/feedback')
+  //       const data = await response.json()
+  //       setSuggestionData(data)
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error)
+  //     }
+  //   }
 
-    fetchData()
+  //   fetchData()
 
-    console.log('useeffect')
-  },[openFeedbackPage])
+  //   console.log('useeffect')
+  // },[openFeedbackPage])
 
   return (
     <div className="container">
@@ -168,7 +168,7 @@ export default function Home({ data }: HomeProps) {
 
 export async function getServerSideProps() {
   try {
-    const response = await fetch('https://game-feedback.netlify.app/api/feedback')
+    const response = await fetch('http://localhost:3000/api/feedback')
     const data = await response.json()
     return { props: { data } }
   } catch (error) {

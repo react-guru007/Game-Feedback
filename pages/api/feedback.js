@@ -81,7 +81,10 @@ export default async (req, res) => {
         const result = await db
           .collection('feedback')
           .insertOne(req.body.feedback)
-        res.status(200).json({ message: 'Feedback added', result })
+
+          const newId = result.insertedId
+          console.log(JSON.stringify(result, null, 2))
+        res.status(200).json({ message: 'Feedback added', newId })
       }
     } else {
       res.status(405).json({ message: 'Method not allowed' })
