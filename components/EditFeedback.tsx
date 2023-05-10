@@ -150,7 +150,7 @@ export default function EditFeedback({
   const handleDeleteButton = () => {
 
     
-    console.log(`button ${currentPost._id}`)
+    console.log(`button ${currentPost?._id}`)
     if (changeType === 'Delete') {
       deleteFeedback(currentPost._id)
       setOpenEditFeedbackPage(false)
@@ -160,7 +160,7 @@ export default function EditFeedback({
     setChangeType('Delete')
   }
 
-  console.log(`log ${currentPost._id}`)
+  console.log(`log ${currentPost?._id}`)
 
   return (
     <div className="newFeedbackContainer editFeedbackContainer">
