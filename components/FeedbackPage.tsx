@@ -68,7 +68,7 @@ export default function FeedbackPage({
     copyObj.content = e.target.value
     copyObj.replyingTo = replyToName
     setPostReply(copyObj)
-    console.log(postReply)
+    
   }
 
   const addComment = async (newComment: any) => {
@@ -144,7 +144,7 @@ export default function FeedbackPage({
     setOpenEditFeedbackPage(true)
   }
 
-  console.log(currentPost)
+  
 
   return (
     <div className="feedbackPageContainer">

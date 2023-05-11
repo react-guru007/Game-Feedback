@@ -55,7 +55,7 @@ export default function RoadmapPage({
 
     const changeType = 'UPVOTE'
 
-    fetch('https://game-feedback.netlify.app/api/feedback', {
+    fetch('http://localhost:3000/api/feedback', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -178,7 +178,7 @@ export default function RoadmapPage({
                   </div>
 
                   <h3>{item.title}</h3>
-                  <p className='truncate'>{item.description}</p>
+                  <p className="truncate">{item.description}</p>
                   <div className="itemCategory">{item.category}</div>
                   <div className="itemFooter">
                     <button
@@ -266,7 +266,7 @@ export default function RoadmapPage({
                   </div>
 
                   <h3>{item.title}</h3>
-                  <p>{item.description}</p>
+                  <p className="truncate">{item.description}</p>
                   <div className="itemCategory">{item.category}</div>
                   <div className="itemFooter">
                     <button
@@ -353,7 +353,7 @@ export default function RoadmapPage({
                   </div>
 
                   <h3>{item.title}</h3>
-                  <p>{item.description}</p>
+                  <p className="truncate">{item.description}</p>
                   <div className="itemCategory">{item.category}</div>
                   <div className="itemFooter">
                     <button

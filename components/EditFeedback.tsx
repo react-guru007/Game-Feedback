@@ -19,15 +19,13 @@ export default function EditFeedback({
   suggestionsData,
   setSuggestionsData,
 }: EditFeedbackProps) {
-  const currentPost: any = suggestionsData.find((item: any) => item._id === pageId)
+  const currentPost: any = suggestionsData.find(
+    (item: any) => item._id === pageId
+  )
 
   const router = useRouter()
 
   const [isOpen, setIsOpen] = useState(false)
-
-  const [isEmpty, setIsEmpty] = useState(true)
-
-  const [textError, setTextError] = useState(false)
 
   const [statusIsOpen, setStatusIsOpen] = useState(false)
 
@@ -51,7 +49,7 @@ export default function EditFeedback({
 
   const handleMenuItemClick = (value: string) => {
     setDropValue(value)
-    let copyObj = newFeedback
+    let copyObj = { ...newFeedback }
     copyObj.category = value
     setNewFeedback(copyObj)
     setIsOpen(false)
@@ -59,14 +57,14 @@ export default function EditFeedback({
 
   const handleStatusMenuItemClick = (value: string) => {
     setStatusDropValue(value)
-    let copyObj = newFeedback
+    let copyObj = { ...newFeedback }
     copyObj.status = value
     setNewFeedback(copyObj)
     setStatusIsOpen(false)
   }
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let copyObj = newFeedback
+    let copyObj = { ...newFeedback }
     copyObj.title = e.target.value
     setNewFeedback(copyObj)
   }
@@ -74,14 +72,7 @@ export default function EditFeedback({
   const handleDescriptionChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    if (e.target.value === '') {
-      setIsEmpty(true)
-    } else {
-      setIsEmpty(false)
-      setTextError(false)
-    }
-
-    let copyObj = newFeedback
+    let copyObj = { ...newFeedback }
     copyObj.description = e.target.value
     setNewFeedback(copyObj)
   }
@@ -89,39 +80,35 @@ export default function EditFeedback({
   const editFeedback = async (feedback: any) => {
     const editId = currentPost._id
 
-    if (isEmpty) {
-      setTextError(true)
-    } else {
-      try {
-        const response = await fetch('https://game-feedback.netlify.app/api/feedback', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            feedback: newFeedback,
-            editId: currentPost._id,
-            changeType: 'Edit',
-          }),
-        })
+    try {
+      const response = await fetch('http://localhost:3000/api/feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          feedback: newFeedback,
+          editId: currentPost._id,
+          changeType: 'Edit',
+        }),
+      })
 
-        if (response.ok) {
-          setSuggestionsData((suggestionData: any) =>
-            suggestionData.map((item: any) =>
-              item._id === feedback._id ? feedback : item
-            )
+      if (response.ok) {
+        setSuggestionsData((suggestionData: any) =>
+          suggestionData.map((item: any) =>
+            item._id === feedback._id ? feedback : item
           )
-          setOpenEditFeedbackPage(false)
-        }
-      } catch (error) {
-        console.error('Error adding feedback:', error)
+        )
+        setOpenEditFeedbackPage(false)
       }
+    } catch (error) {
+      console.error('Error adding feedback:', error)
     }
   }
 
   const deleteFeedback = async (deleteId: any) => {
     try {
-      const response = await fetch('https://game-feedback.netlify.app/api/feedback', {
+      const response = await fetch('http://localhost:3000/api/feedback', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -148,9 +135,7 @@ export default function EditFeedback({
   }
 
   const handleDeleteButton = () => {
-
     
-    console.log(`button ${currentPost?._id}`)
     if (changeType === 'Delete') {
       deleteFeedback(currentPost._id)
       setOpenEditFeedbackPage(false)
@@ -159,12 +144,6 @@ export default function EditFeedback({
 
     setChangeType('Delete')
   }
-
-  console.log(`pageid ${pageId}`)
-
-  console.log(`currentpost ${currentPost}`)
-
-  console.log(`log ${currentPost?._id}`)
 
   return (
     <div className="newFeedbackContainer editFeedbackContainer">
@@ -291,10 +270,9 @@ export default function EditFeedback({
             etc.
           </p>
           <textarea
-            className={`feedbackDetail ${textError && 'empty'}`}
+            className={`feedbackDetail `}
             onChange={handleDescriptionChange}
           ></textarea>
-          {textError && <p className="errorMessage">Cant be Empty</p>}
         </div>
 
         <div className="editButtonWrapper">

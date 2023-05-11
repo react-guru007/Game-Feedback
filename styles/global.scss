@@ -741,7 +741,7 @@ a {
       display: flex;
       gap: 10px;
       align-self: center;
-      
+
       margin-left: auto;
       color: $darkpurple;
       height: 23px;
@@ -1132,7 +1132,7 @@ a {
         border-bottom-right-radius: 10px;
 
         .colorBar {
-          height: 6px;
+          min-height: 6px;
           width: 100%;
           border-top-right-radius: 10px;
           border-top-left-radius: 10px;
@@ -1263,7 +1263,7 @@ a {
 }
 
 // tablet
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
   .main {
     flex-direction: column;
 
@@ -1285,6 +1285,53 @@ a {
         display: flex;
         flex-direction: row;
         justify-content: space-evenly;
+      }
+    }
+  }
+
+  .roadmapPageContainer {
+    padding: 0px;
+
+    .roadmapHeaderContainer {
+      border-radius: 0px;
+    }
+
+    .mobileSelectorWrapper {
+      display: flex;
+      width: 100%;
+      border-bottom: 1px solid $grey;
+
+      button {
+        flex-basis: 33%;
+        text-align: center;
+        padding: 20px;
+        font-weight: 700;
+        color: $grey;
+        background-color: transparent;
+        border: none;
+        font-size: 1rem;
+
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+
+      .selectedItem {
+        border-bottom: 5px solid $purple;
+        padding-bottom: 15px;
+        color: $darkpurple2;
+      }
+    }
+
+    .roadmapLayoutContainer {
+      .layoutColumn {
+        width: 100%;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .hideColumn {
+        display: none;
       }
     }
   }

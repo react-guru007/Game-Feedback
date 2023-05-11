@@ -89,13 +89,12 @@ export default function Suggestions({
     setHasUserUpvoted(
       currentPost?.upvotedBy?.some((item: any) => item === user)
     )
-      console.log(currentPost)
-    console.log(`check after set ${hasUserUpvoted}`)
+    
     const feedbackId = currentId
 
     const changeType = 'UPVOTE'
 
-    fetch('https://game-feedback.netlify.app/api/feedback', {
+    fetch('http://localhost:3000/api/feedback', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -116,29 +115,26 @@ export default function Suggestions({
         }
 
         if (response.ok) {
-
-
           const updatedData = suggestionsData.map((item: any) => {
-          if (item._id === currentId) {
-            const userExists = item.upvotedBy.includes(user)
-            const updatedUpvotedBy = userExists
-              ? item.upvotedBy.filter((u: any) => u !== user)
-              : [...item.upvotedBy, user]
+            if (item._id === currentId) {
+              const userExists = item.upvotedBy.includes(user)
+              const updatedUpvotedBy = userExists
+                ? item.upvotedBy.filter((u: any) => u !== user)
+                : [...item.upvotedBy, user]
 
-              console.log(hasUserUpvoted)
+              
 
-            return {
-              ...item,
-              upvotes: userExists ? item.upvotes - 1 : item.upvotes + 1,
-              upvotedBy: updatedUpvotedBy,
+              return {
+                ...item,
+                upvotes: userExists ? item.upvotes - 1 : item.upvotes + 1,
+                upvotedBy: updatedUpvotedBy,
+              }
             }
-          }
-          return item
-        })
+            return item
+          })
 
-        setSuggestionsData(updatedData)
+          setSuggestionsData(updatedData)
         }
-        
       })
       .catch((error) => {
         console.error('Error adding comment:', error)
@@ -251,8 +247,8 @@ export default function Suggestions({
             <p>{item.upvotes}</p>
           </button>
           <div className="suggestionDescriptionWrapper">
-            <h2 >{item.title}</h2>
-            <p className=''>{item.description}</p>
+            <h2>{item.title}</h2>
+            <p className="">{item.description}</p>
             <div>{item.category}</div>
           </div>
           <div
