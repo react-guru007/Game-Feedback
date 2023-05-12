@@ -68,28 +68,25 @@ export default function FeedbackPage({
     copyObj.content = e.target.value
     copyObj.replyingTo = replyToName
     setPostReply(copyObj)
-    
   }
 
   const addComment = async (newComment: any) => {
     try {
-      const response = await fetch(
-        'https://game-feedback.netlify.app/api/comment',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ newComment, filterId, dataType }),
-        }
-      )
+      const response = await fetch('https://game-feedback.netlify.app/api.comment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newComment, filterId, dataType }),
+      })
 
       if (response.ok) {
-        setSuggestionsData((suggestionsData: any) =>
-          suggestionsData.map(
-            (item: any) => item._id === pageId && item.comments.push(newComment)
-          )
-        )
+        let copyData = [...suggestionsData]
+        copyData.map((item: any) => {
+          item._id == pageId && item.comments.push(newComment)
+        })
+
+        setSuggestionsData(copyData)
       }
     } catch (error) {
       console.error('Error adding comment:', error)
@@ -100,28 +97,25 @@ export default function FeedbackPage({
     const commentId = currentId
 
     try {
-      const response = await fetch(
-        'https://game-feedback.netlify.app/api/comment',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ newReply, filterId, dataType, commentId }),
-        }
-      )
+      const response = await fetch('https://game-feedback.netlify.app/api.comment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ newReply, filterId, dataType, commentId }),
+      })
 
       if (response.ok) {
-        setSuggestionsData((suggestionsData: any) =>
-          suggestionsData.map(
-            (item: any) =>
-              item._id === pageId &&
-              item.map(
-                (item2: any) =>
-                  item2.id === currentId && item2.replies.push(newReply)
-              )
-          )
+        let copyData = [...suggestionsData]
+
+        copyData.map(
+          (item: any) =>
+            item._id === pageId &&
+            item.comments.map((item2: any) => {
+              item2.id == currentId && item2.replies.push(newReply)
+            })
         )
+
         setActiveReplyBox(-1)
       }
     } catch (error) {
@@ -143,7 +137,6 @@ export default function FeedbackPage({
     setOpenFeedbackPage(false)
     setOpenEditFeedbackPage(true)
   }
-
   
 
   return (
