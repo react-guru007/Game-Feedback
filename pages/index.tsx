@@ -149,7 +149,7 @@ export default function Home({ data }: HomeProps) {
 
 export async function getServerSideProps() {
   try {
-    const response = await fetch('http://localhost:3000/api/feedback')
+    const response = await fetch('https://game-feedback.netlify.app/api/feedback')
     const data = await response.json()
     return { props: { data } }
   } catch (error) {

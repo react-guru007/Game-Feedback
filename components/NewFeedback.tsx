@@ -79,7 +79,7 @@ export default function NewFeedback({
       setTextError(true)
     } else {
       try {
-        const response = await fetch('http://localhost:3000/api/feedback', {
+        const response = await fetch('https://game-feedback.netlify.app/api/feedback', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

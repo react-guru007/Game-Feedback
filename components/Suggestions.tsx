@@ -94,7 +94,7 @@ export default function Suggestions({
 
     const changeType = 'UPVOTE'
 
-    fetch('http://localhost:3000/api/feedback', {
+    fetch('https://game-feedback.netlify.app/api/feedback', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
