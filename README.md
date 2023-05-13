@@ -20,4 +20,4 @@
 https://game-feedback.netlify.app/
 
 
-![Logo](https://i.imgur.com/a/k69MhZL)
+![Logo](<blockquote class="imgur-embed-pub" lang="en" data-id="a/k69MhZL" data-context="false" ><a href="//imgur.com/a/k69MhZL"></a></blockquote><script async src="//s.imgur.com/min/embed.js" charset="utf-8"></script>)
