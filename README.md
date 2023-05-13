@@ -20,4 +20,4 @@
 https://game-feedback.netlify.app/
 
 
-![Logo](https://imgur.com/a/k69MhZL)
+![Logo](https://i.imgur.com/4oB1qHI.png)
