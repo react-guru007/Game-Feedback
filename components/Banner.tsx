@@ -17,6 +17,7 @@ export default function Banner({
 
   const [windowWidth, setWindowWidth] = useState(0)
 
+  //checks window width to set correct banner image src
   useEffect(() => {
     setWindowWidth(window.innerWidth)
 

@@ -147,10 +147,12 @@ export default function EditFeedback({
 
   return (
     <div className="newFeedbackContainer editFeedbackContainer">
+      {/* go back button */}
       <div>
         <img src="/shared/icon-arrow-left.svg" />
         <button onClick={() => setOpenEditFeedbackPage(false)}>Go Back</button>
       </div>
+      
       <div className="formContainer">
         <img
           src="/shared/icon-edit-feedback.svg"

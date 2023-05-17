@@ -51,7 +51,6 @@ export default async (req, res) => {
 
         result = await db.collection('feedback').updateOne(filter, update)
       }
-      //delete
 
       res.status(200).json({ message: 'Feedback added', result })
     } else {

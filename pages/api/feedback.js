@@ -14,6 +14,7 @@ export default async (req, res) => {
     const client = await clientPromise
     const db = client.db('game-feedback-db')
 
+    // gets first 10 posts
     if (req.method === 'GET') {
       const feedbackList = await db
         .collection('feedback')
@@ -23,6 +24,7 @@ export default async (req, res) => {
 
       res.json(feedbackList)
     } else if (req.method === 'POST') {
+      // delete post
       if (req.body.changeType === 'Delete') {
         const objectId = new ObjectId(req.body.deleteId)
         const filter = { _id: objectId }
@@ -31,7 +33,7 @@ export default async (req, res) => {
 
         res.status(200).json({ message: 'feedback deleted' })
       }
-
+      //edit post
       if (req.body.changeType === 'Edit') {
         const objectId = new ObjectId(req.body.editId)
         const filter = { _id: objectId }
@@ -44,7 +46,7 @@ export default async (req, res) => {
 
         res.status(200).json({ message: 'feedback edited' })
       }
-
+      //upvote post
       if (req.body.changeType === 'UPVOTE') {
         const objectId = new ObjectId(req.body.feedbackId)
         const filter = { _id: objectId }
@@ -76,7 +78,7 @@ export default async (req, res) => {
           .status(200)
           .json({ message: ('Modified document count:', result.modifiedCount) })
       }
-
+      //add new post
       if (req.body.changeType === 'Add') {
         const result = await db
           .collection('feedback')
