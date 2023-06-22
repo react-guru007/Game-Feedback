@@ -206,6 +206,7 @@ export default function Suggestions({
         <div className="suggestionItem" key={index}>
           <button
             className={`${
+              user &&
               item?.upvotedBy?.some((item2: any) => item2 === item.name) &&
               'upvoted'
             } upvotes`}
@@ -231,6 +232,7 @@ export default function Suggestions({
                 }))
               }
             }}
+            disabled={!user}
           >
             <IconArrowUp
               className={`${
@@ -239,6 +241,7 @@ export default function Suggestions({
                   : 'downvotedArrow'
               } iconArrowUp`}
               strokeColor={`${
+                user &&
                 item?.upvotedBy?.some((item2: any) => item2 === item.name)
                   ? strokeColors[item._id] || 'white'
                   : '#4661E6'
