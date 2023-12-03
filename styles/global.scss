@@ -24,7 +24,7 @@ $lightblue: #62bcfa;
 html,
 body {
   max-width: 100vw;
-  overflow-x: hidden;
+  
 }
 
 a {
@@ -1354,7 +1354,7 @@ a {
     .mobileMenuOverlay {
       position: absolute;
       width: 100%;
-      height: 100%;
+      height: 100vh;
 
       top: 84px;
       display: flex;
